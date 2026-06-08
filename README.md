@@ -88,21 +88,33 @@ Corações podem ser coletados para restaurar vidas durante o jogo.
 ## 📂 Estrutura do Projeto
 
 ```text
-FishHunter/
+game/
 │
-├── src/
-│   ├── main.py
-│   ├── jogador.py
-│   ├── peixe.py
-│   ├── obstaculo.py
-│   ├── coracao.py
-│   └── jogo.py
+├── main.py
+├── config.py
 │
-├── assets/
-│   ├── imagens/
-│   └── sons/
+├── player/
+│   └── player.py
 │
-└── README.md
+├── obstacles/
+│   ├── obstacles.py
+│   └── spawner.py
+│
+├── items/
+│   ├── fish.py
+│   └── heart.py
+│
+├── ui/
+│   └── hud.py
+│
+├── mechanics/
+│   ├── collision.py
+│   ├── score.py
+│   └── lives.py
+│
+└── assets/
+    ├── images/
+    └── sounds/
 ```
 
 ---
