@@ -88,35 +88,41 @@ Corações podem ser coletados para restaurar vidas durante o jogo.
 ## 📂 Estrutura do Projeto
 
 ```text
-game/
+game
 │
 ├── main.py
 ├── config.py
 │
-├── player/
+├── player
+│   │
 │   └── player.py
 │
-├── obstacles/
+├── obstacles
+│   │
 │   ├── obstacles.py
 │   └── spawner.py
 │
-├── items/
+├── items
+│   │
 │   ├── fish.py
 │   └── heart.py
 │
-├── ui/
-│   └── hud.py
-│
-├── mechanics/
-│   ├── collision.py
+├── mechanics
+│   │
 │   ├── score.py
 │   └── lives.py
 │
-└── assets/
-    ├── images/
-    └── sounds/
+├── ui
+│   │
+│   ├── hud.py
+│   └── menu.py
+│
+└── assets
+    │
+    ├── images
+    │
+    └── sounds
 ```
-
 ---
 
 ## 👨‍💻 Equipe
