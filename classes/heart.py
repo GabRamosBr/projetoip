@@ -1,7 +1,7 @@
 import pygame
 import random
 
-class Heart(pygame.sprite.Sprite):
+class Heart():
     def __init__(self, largura_tela):
         super().__init__()
         
