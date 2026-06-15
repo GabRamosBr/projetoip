@@ -14,7 +14,7 @@ cntg_pulo = 0
 condicao_puloduplo = True
 
 
-#variáveis que controlam a geração de obstáculos
+#VARIÁVEIS QUE CONTROLAM A GERAÇÃO DE OBSTÁCULOS
 lista_de_obstaculos = []
 
 gerador_de_obstaculos = 0
