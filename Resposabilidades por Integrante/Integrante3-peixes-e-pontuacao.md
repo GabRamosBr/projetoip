@@ -1,4 +1,4 @@
-# Integrante 3 — Peixes e Pontuação
+# Integrante 3 — Peixes e Pontuação -> Jessé
 
 ## Responsabilidades
 
