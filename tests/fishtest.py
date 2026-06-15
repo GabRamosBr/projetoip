@@ -16,7 +16,7 @@ cntg_pulo = 0
 condicao_puloduplo = True
 
 
-from fishclass import Fish
+from classes.fishclass import Fish
 fish = Fish(screen)
 
 
