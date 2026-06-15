@@ -1,4 +1,4 @@
-# Integrante 2 — Obstáculos
+# Integrante 2 — Obstáculos -> Maria Clara
 
 ## Responsabilidades
 
