@@ -6,6 +6,7 @@
 * Coração de recuperação
 * Perda de vida ao colidir
 * Sistema de Game Over
+* Colisão
 
 ## Arquivos
 
