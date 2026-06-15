@@ -9,16 +9,17 @@ pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
 running = True
 dt = 0
-gravidade = 1000
-forca_pulo = -600
+gravidade = 675
+forca_pulo = -575
 forca_normal = 0
 cntg_pulo = 0
 condicao_puloduplo = True
-condicao_Dash = 0
-condicao_temporizador = False
-condicao_Dash = False
-temporizador = 0
-cntg_Dash = 0
+
+
+from classes.fish import Fish
+fish = Fish(screen)
+
+
 
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
@@ -29,9 +30,6 @@ while running:
     for event in lista_eventos:
         if event.type == pygame.QUIT:
             running = False
-
-
-
 
 
     screen.fill("black")
@@ -59,30 +57,22 @@ while running:
                     condicao_puloduplo = False
                     cntg_pulo = 0
 
-            if event.key == pygame.K_RIGHT:
-                cntg_Dash += 1
-                condicao_temporizador = True
-                if condicao_Dash == True:
-                    player_pos.x += gravidade * dt
 
-    if condicao_temporizador == True:
-        temporizador += dt
 
-    if temporizador >= 2 and cntg_Dash >= 2:
-        condicao_Dash = True
+    fish.spawn_time_counter(dt)
+    fish.spawn(dt)
 
-        
     if keys[pygame.K_s]:
-        player_pos.y += 500 * dt
+        player_pos.y += 450 * dt
 
     if keys[pygame.K_p]:
         pygame.Rect.move_ip(retangulo_teste, 1000, 400)  
 
 
     if keys[pygame.K_a]:
-        player_pos.x -= 500 * dt
+        player_pos.x -= 350 * dt
     if keys[pygame.K_d]:
-        player_pos.x += 500 * dt
+        player_pos.x += 350 * dt
 
 
 
