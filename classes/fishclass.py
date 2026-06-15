@@ -12,6 +12,7 @@ class Fish:
         self.fish_spawn_rate = 1
         self.fish_list = []
         self.fish_spawn_counter = 0
+        self.fish_speed = 200
 
 
 #    *TEMPORIZADOR DO SPAWN DE PEIXES* ---------------------------------------------------------
@@ -20,16 +21,15 @@ class Fish:
         self.fish_spawn_counter += dt
         
 
-
-#    *GERAÇAO DE PEIXES* -----------------------------------------------------------------------
+#    *GERADOR DE PEIXES* -----------------------------------------------------------------------
 
     def spawn(self, dt):
 
         if self.fish_spawn_counter >= self.fish_spawn_rate:
 
-            fish = pygame.Rect(1280, random.randint(100, 500), 1, 5)
+            fish = pygame.Rect(1280, random.randint(100, 500), 50, 10)
 
-            self.fish_list.append(fish(self.screen, self.fish_spawn_counter))
+            self.fish_list.append(fish)
 
             self.fish_spawn_counter = 0
 

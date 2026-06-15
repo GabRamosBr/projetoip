@@ -14,14 +14,11 @@ forca_pulo = -575
 forca_normal = 0
 cntg_pulo = 0
 condicao_puloduplo = True
-fish_spawn_counter = 0
 
-fish_spawn_rate = 1
-fish_speed = 200
 
-fish_list = []
+from fishclass import Fish
+fish = Fish(screen)
 
-fish_types = []
 
 
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
@@ -60,11 +57,10 @@ while running:
                     condicao_puloduplo = False
                     cntg_pulo = 0
 
-    from fishclass import Fish
 
-    Fish.spawn_time_counter(dt)
 
-    Fish.spawn(dt)
+    fish.spawn_time_counter(dt)
+    fish.spawn(dt)
 
     if keys[pygame.K_s]:
         player_pos.y += 450 * dt
