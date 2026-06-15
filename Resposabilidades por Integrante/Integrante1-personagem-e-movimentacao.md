@@ -1,4 +1,4 @@
-# Integrante 1 — Personagem e Movimentação
+# Integrante 1 — Personagem e Movimentação -> Bernardo
 
 ## Responsabilidades
 
