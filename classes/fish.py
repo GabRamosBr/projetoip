@@ -62,9 +62,9 @@ while running:
 
     from fishclass import Fish
 
-    Fish.fish_spawn_counter(dt)
+    Fish.spawn_time_counter(dt)
 
-    Fish.spawn_fish(dt)
+    Fish.spawn(dt)
 
     if keys[pygame.K_s]:
         player_pos.y += 450 * dt

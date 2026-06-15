@@ -16,14 +16,14 @@ class Fish:
 
 #    *TEMPORIZADOR DO SPAWN DE PEIXES* ---------------------------------------------------------
 
-    def fish_spawn_time_counter(self, dt):
+    def spawn_time_counter(self, dt):
         self.fish_spawn_counter += dt
         
 
 
 #    *GERAÇAO DE PEIXES* -----------------------------------------------------------------------
 
-    def spawn_fish(self, dt):
+    def spawn(self, dt):
 
         if self.fish_spawn_counter >= self.fish_spawn_rate:
 
