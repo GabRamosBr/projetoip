@@ -1,4 +1,4 @@
-# Integrante 6 — Integração e Áudio
+# Integrante 6 — Integração e Áudio -> Camila
 
 ## Responsabilidades
 
