@@ -1,9 +1,11 @@
 import pygame
+import random
 
 
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
+pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
 running = True
 dt = 0
@@ -12,39 +14,69 @@ forca_pulo = -600
 forca_normal = 0
 cntg_pulo = 0
 condicao_puloduplo = True
-
+condicao_Dash = 0
+condicao_temporizador = False
+condicao_Dash = False
+temporizador = 0
+cntg_Dash = 0
 
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
 while running:
 
-    for event in pygame.event.get():
+    lista_eventos = pygame.event.get()
+
+    for event in lista_eventos:
         if event.type == pygame.QUIT:
             running = False
 
 
-    screen.fill("black")
 
+
+
+    screen.fill("black")
 
     forca_normal += gravidade * dt
 
 
-    pygame.draw.circle(screen, "red", player_pos, 40)
+    pygame.draw.circle(screen, "red", player_pos, 30)
 
-    
+    retangulo_teste = pygame.draw.rect(screen, 'white', (100, 400, 100, 200))
+  
     pygame.draw.line(screen, 'pink', (0, 620), (1280, 620), width=5)
 
 
     keys = pygame.key.get_pressed()
-   
-    if (keys[pygame.K_w] or keys[pygame.K_SPACE]) and condicao_puloduplo == True:
-        forca_normal = forca_pulo
-        cntg_pulo += 1
-        if cntg_pulo >= 2:
-            condicao_puloduplo = False
+    
+    for event in lista_eventos:
+        if event.type == pygame.KEYDOWN:
+
+            if (event.key == pygame.K_SPACE or event.key == pygame.K_w or event.key == pygame.K_UP) and condicao_puloduplo:
+                forca_normal = forca_pulo
+                cntg_pulo += 1
+            
+                if cntg_pulo >= 2:
+                    condicao_puloduplo = False
+                    cntg_pulo = 0
+
+            if event.key == pygame.K_RIGHT:
+                cntg_Dash += 1
+                condicao_temporizador = True
+                if condicao_Dash == True:
+                    player_pos.x += gravidade * dt
+
+    if condicao_temporizador == True:
+        temporizador += dt
+
+    if temporizador >= 2 and cntg_Dash >= 2:
+        condicao_Dash = True
+
         
     if keys[pygame.K_s]:
         player_pos.y += 500 * dt
+
+    if keys[pygame.K_p]:
+        pygame.Rect.move_ip(retangulo_teste, 1000, 400)  
 
 
     if keys[pygame.K_a]:
@@ -56,8 +88,8 @@ while running:
 
     player_pos.y += forca_normal * dt
 
-    if player_pos.y > 620 - 40:
-        player_pos.y = 620 - 40
+    if player_pos.y > 620 - 30:
+        player_pos.y = 620 - 30
         condicao_puloduplo = True
 
 
@@ -66,7 +98,6 @@ while running:
 
 
     dt = clock.tick(60) / 1000
-
 
 
 
