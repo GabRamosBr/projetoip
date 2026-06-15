@@ -2,13 +2,27 @@ import pygame
 
 #definição da classe Player
 class Player():
-    def __init__(self, largura, altura, vel_mov, x, y, gravity): #inicialização e atributos
-        self.largura = largura #largura do retangulo de colisão
-        self.altura = altura #altura do retangulo de colisao
-        self.vel_mov = vel_mov 
-        self.x = x 
-        self.y = y 
-        self.gravity = gravity #velocidade da gravidade
+    def __init__(self, largura_tela, altura_tela): #inicialização e atributos
+        super().__init__()
+
+        self.largura = 50
+        self.altura = 80
+
+        self.image = pygame.Surface((self.largura, self.altura))
+        self.image.fill((255, 255, 255))
+        
+        self.rect = self.image.get_rect()
+
+        self.vel_mov = 500
+
+        self.x = largura_tela/2 - 50/2
+        self.y =  altura_tela - 80
+
+        self.pos = pygame.Vector2(self.x(), self.y())
+
+        self.gravity = 1000
+        self.forca_pulo = -600
+        self.forca_normal = 0
         
         #vidas da varinha (e variável de game over)
         self.vidas_maximas = 3
@@ -18,22 +32,22 @@ class Player():
     #metodo andar para movimentação
     def andar(self, largura_tela): #é preciso considerar a largura da tela
         #se a posição x não atravessar a borda esquerda da tela
-        if not(self.x <= 0): 
+        if not(self.rect.x <= 0): 
 
             if pygame.key.get_pressed()[pygame.K_a]:
-                self.x -= self.vel_mov 
+                self.pos.x = self.vel_mov * dt
 
         #se a posição x não atravessa a borda direta da tela
-        if not(self.x >= largura_tela - self.largura):
+        if not(self.rect.x >= largura_tela - self.largura):
 
             if pygame.key.get_pressed()[pygame.K_d]:
-                self.x += self.vel_mov 
+                self.pos.x += self.vel_mov * dt
 
         #se a posição y não atravessa a borda superior da tela
-        if not(self.y <= 0):
+        if not(self.rect.y <= 0):
 
             if pygame.key.get_pressed()[pygame.K_w]:
-                self.y -= self.vel_mov 
+                self.pos.y -= self.vel_mov 
 
     #metodo gravidade para implementar gravidade
     def gravidade(self, altura_tela): #precisa-se considerar a altura da tela
