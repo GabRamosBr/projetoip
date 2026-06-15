@@ -1,4 +1,4 @@
-# Integrante 5 — Interface Gráfica (HUD)
+# Integrante 5 — Interface Gráfica (HUD) -> Vinícius
 
 ## Responsabilidades
 
