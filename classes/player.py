@@ -1,28 +1,35 @@
 import pygame
 
 #definição da classe Player
-class Player():
-    def __init__(self, largura_tela, altura_tela): #inicialização e atributos
+class Player(pygame.sprite.Sprite):
+    def __init__(self, largura_tela, chao): #inicialização e atributos
         super().__init__()
 
         self.largura = 50
         self.altura = 80
 
+        #cria imagem retangulo branco pro player
         self.image = pygame.Surface((self.largura, self.altura))
         self.image.fill((255, 255, 255))
         
+        #pega o retangulo da imagem do player
         self.rect = self.image.get_rect()
 
         self.vel_mov = 500
 
+        #posicoes iniciais
         self.x = largura_tela/2 - 50/2
-        self.y =  altura_tela - 80
+        self.y =  chao - 80
 
-        self.pos = pygame.Vector2(self.x(), self.y())
+        self.pos = pygame.Vector2(self.x, self.y)
 
+        #forcas/velocidades
         self.gravity = 1000
         self.forca_pulo = -600
-        self.forca_normal = 0
+        self.vel_y = 0
+
+        #junta posicao imagem e retangulo da imagem
+        self.rect.topleft = self.pos
         
         #vidas da varinha (e variável de game over)
         self.vidas_maximas = 3
@@ -30,31 +37,47 @@ class Player():
         self.is_game_over = False
 
     #metodo andar para movimentação
-    def andar(self, largura_tela): #é preciso considerar a largura da tela
-        #se a posição x não atravessar a borda esquerda da tela
-        if not(self.rect.x <= 0): 
+    def andar(self, largura_tela, chao, dt): #é preciso considerar a largura da tela
+        
+        #gravidade atuando
+        self.vel_y += self.gravity * dt
+        
+        teclas = pygame.key.get_pressed()
 
-            if pygame.key.get_pressed()[pygame.K_a]:
-                self.pos.x = self.vel_mov * dt
+        #movimentacao na horizontal
+        if teclas[pygame.K_a]:
+            self.pos.x -= self.vel_mov * dt
 
-        #se a posição x não atravessa a borda direta da tela
-        if not(self.rect.x >= largura_tela - self.largura):
+        if teclas[pygame.K_d]:
+            self.pos.x += self.vel_mov * dt
 
-            if pygame.key.get_pressed()[pygame.K_d]:
-                self.pos.x += self.vel_mov * dt
+        #verificacoes se atravessou bordas horizontais
+        if self.pos.x < 0:
+            self.pos.x = 0
 
-        #se a posição y não atravessa a borda superior da tela
-        if not(self.rect.y <= 0):
+        if self.pos.x > largura_tela - self.largura:
+            self.pos.x = largura_tela - self.largura
 
-            if pygame.key.get_pressed()[pygame.K_w]:
-                self.pos.y -= self.vel_mov 
+        #verificacao se atravessou chao
+        if (self.pos.y >= chao - self.altura):
+            
+            self.pos.y = chao - self.altura
+            self.vel_y = 0
+        
+        #pulo
+            if teclas[pygame.K_w]:
+                self.vel_y = self.forca_pulo
 
-    #metodo gravidade para implementar gravidade
-    def gravidade(self, altura_tela): #precisa-se considerar a altura da tela
+        #movimentacao na vertical
+        self.pos.y += self.vel_y * dt
 
-        #se o objeto não estiver tocando o chão
-        if self.y <= altura_tela - self.altura:
-            self.y += self.gravity
+        if (self.pos.y >= chao - self.altura):
+            
+            self.pos.y = chao - self.altura
+            self.vel_y = 0
+
+        #atualizacao posicao
+        self.rect.topleft = self.pos
     
     # Parte de vida
 
