@@ -10,6 +10,12 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
+pontos = 0
+pygame.font.init()
+
+fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
+
+
 #Aparição dos peixes
 from classes.fish import Fish
 fish = Fish(screen)
@@ -26,7 +32,7 @@ coracao = Heart(largura)
 from classes.spawner import GeradorObstaculos
 gerador = GeradorObstaculos()
 
-while running:
+while running:  
 
     lista_eventos = pygame.event.get()
 
@@ -43,6 +49,12 @@ while running:
     # Movimentação do jogador
     anzol.andar(largura, chao, dt)
     screen.blit(anzol.image, anzol.rect)
+    
+    texto = fonte_padrão.render(f"Score: {pontos}", True, "white")
+    screen.blit(texto, (1100, 20))
+    
+    #colisão peixe player.
+    ColisaoPeixe(player_rect, fish)
 
     # Movimentação do coração
     screen.blit(coracao.image, coracao.rect)
