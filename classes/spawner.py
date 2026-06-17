@@ -1,6 +1,6 @@
 import pygame
 import random
-from obstacles.obstacles import Pedra, Lixo
+from classes.obstacles import Pedra, Lixo
 
 # Tamanho da tela pra saber quando remover os obstáculos
 LARGURA_TELA = 1920
