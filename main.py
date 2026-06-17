@@ -1,4 +1,7 @@
 import pygame
+from utils.collision import ColisaoPeixe
+from utils.collision import ColisaoObst
+
 
 pygame.init()
 largura = 1280
@@ -20,6 +23,8 @@ fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
 from classes.fish import Fish
 fish = Fish(screen)
 
+from classes.obstacles import Obstaculo
+obst = Obstaculo(screen)
 #Aparição do jogador
 from classes.player import Player
 anzol = Player(largura, altura)
@@ -45,7 +50,10 @@ while running:
     # Movimentação dos peixes
     fish.spawn_time_counter(dt)
     fish.spawn(dt)
-
+    obst.spawn_time_counter(dt)
+    obst.spawn(dt)  
+    
+    
     # Movimentação do jogador
     anzol.andar(largura, chao, dt)
     screen.blit(anzol.image, anzol.rect)
@@ -53,9 +61,10 @@ while running:
     texto = fonte_padrão.render(f"Score: {pontos}", True, "white")
     screen.blit(texto, (1100, 20))
     
-    #colisão peixe player.
-    ColisaoPeixe(player_rect, fish)
-
+    
+    ColisaoObst(player_red, obst)
+    ColisaoPeixe(player_red, fish)
+  
     # Movimentação do coração
     screen.blit(coracao.image, coracao.rect)
     coracao.update()
