@@ -1,6 +1,5 @@
 import pygame
-from utils.collision import ColisaoPeixe
-from utils.collision import ColisaoObst
+
 
 
 pygame.init()
@@ -9,12 +8,11 @@ altura = 720
 chao = 620
 screen = pygame.display.set_mode((largura, altura))
 
+
 pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
 running = True
 dt = 0
-
-
 
 
 pygame.font.init()
@@ -22,13 +20,16 @@ fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
 score = 0
 
 
+#Inicialização das Colisões
+from utils.collision import ColisaoPeixe
 
-#Aparição dos peixes
+
+
+#Inicialização do gerador de peixes
 from classes.fish import Fish
 fish = Fish(screen)
 
-from classes.obstacles import Obstaculo
-obst = Obstaculo(screen)
+
 #Aparição do jogador
 from classes.player import Player
 anzol = Player(largura, altura)
@@ -41,6 +42,9 @@ coracao = Heart(largura)
 from classes.spawner import GeradorObstaculos
 gerador = GeradorObstaculos()
 
+
+
+
 while running:  
 
     lista_eventos = pygame.event.get()
@@ -51,25 +55,23 @@ while running:
 
     screen.fill("black")
 
-    # Movimentação dos peixes
+    # Geração dos peixes
     fish.spawn_time_counter(dt)
     fish.spawn(dt)
-    obst.spawn_time_counter(dt)
-    obst.spawn(dt)  
-    
+
     
     # Movimentação do jogador
     anzol.andar(largura, chao, dt)
     screen.blit(anzol.image, anzol.rect)
 
-    #colisão peixe player.
+    #Coleta dos peixes
+
     score = ColisaoPeixe(anzol.rect, fish.fish_list, score)
 
+    #Pontuação na Tela
     texto = fonte_padrão.render(f"Score: {score}", True, "white")
     screen.blit(texto, (1100, 20))
-    
-    
-    ColisaoObst(player_red, obst)
+
   
     # Movimentação do coração
     screen.blit(coracao.image, coracao.rect)
@@ -81,6 +83,8 @@ while running:
 
     # Chão
     pygame.draw.line(screen, 'pink', (0, 620), (1280, 620), width=5)
+
+
 
     pygame.display.flip()
 
