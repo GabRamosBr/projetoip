@@ -4,7 +4,6 @@ import random
 class Fish:
 
 #    *ATRIBUTOS* ------------------------------------------------------------------------------
-
     def __init__(self, tela):
 
         self.fish_types = []
@@ -13,8 +12,6 @@ class Fish:
         self.fish_list = []
         self.fish_spawn_counter = 0
         self.fish_speed = 200
-
-
 #    *TEMPORIZADOR DO SPAWN DE PEIXES* ---------------------------------------------------------
 
     def spawn_time_counter(self, dt):
@@ -41,4 +38,4 @@ class Fish:
 
             if fish.x < -50:
                 self.fish_list.remove(fish)
-
+        return self.fish_list

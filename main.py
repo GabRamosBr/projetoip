@@ -1,7 +1,6 @@
 import pygame
 import random
-
-
+from utils.collision import ColisaoPeixe
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
@@ -37,7 +36,7 @@ while running:
     forca_normal += gravidade * dt
 
 
-    pygame.draw.circle(screen, "red", player_pos, 30)
+    player_red = pygame.draw.rect(screen, "red", (player_pos.x, player_pos.y, 30, 30))
 
     retangulo_teste = pygame.draw.rect(screen, 'white', (100, 400, 100, 200))
   
@@ -81,6 +80,17 @@ while running:
     if player_pos.y > 620 - 30:
         player_pos.y = 620 - 30
         condicao_puloduplo = True
+
+
+
+
+
+
+    ColisaoPeixe(player_red, fish)
+
+
+
+
 
 
     pygame.display.flip()
