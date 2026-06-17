@@ -87,7 +87,7 @@ while running:
 
 
     ColisaoPeixe(player_red, fish)
-
+    #colisão peixe player
 
 
 
