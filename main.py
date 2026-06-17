@@ -1,19 +1,24 @@
 import pygame
+from utils.collision import ColisaoPeixe
 
 pygame.init()
 largura = 1280
 altura = 720
 chao = 620
 screen = pygame.display.set_mode((largura, altura))
+
 pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
 running = True
 dt = 0
 
-pontos = 0
-pygame.font.init()
 
+
+
+pygame.font.init()
 fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
+score = 0
+
 
 
 #Aparição dos peixes
@@ -49,12 +54,14 @@ while running:
     # Movimentação do jogador
     anzol.andar(largura, chao, dt)
     screen.blit(anzol.image, anzol.rect)
-    
-    texto = fonte_padrão.render(f"Score: {pontos}", True, "white")
+
+    #colisão peixe player.
+    score = ColisaoPeixe(anzol.rect, fish.fish_list, score)
+
+    texto = fonte_padrão.render(f"Score: {score}", True, "white")
     screen.blit(texto, (1100, 20))
     
-    #colisão peixe player.
-    ColisaoPeixe(player_rect, fish)
+   
 
     # Movimentação do coração
     screen.blit(coracao.image, coracao.rect)
