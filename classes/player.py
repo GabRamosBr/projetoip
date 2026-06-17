@@ -6,7 +6,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         self.largura = 50
-        self.altura = 80
+        self.altura = 50
 
         #cria imagem retangulo branco pro player
         self.image = pygame.Surface((self.largura, self.altura))
@@ -24,8 +24,8 @@ class Player(pygame.sprite.Sprite):
         self.pos = pygame.Vector2(self.x, self.y)
 
         #forcas/velocidades
-        self.gravity = 1000
-        self.forca_pulo = -600
+        self.gravity = 500
+        self.forca_pulo = -700
         self.vel_y = 0
 
         #junta posicao imagem e retangulo da imagem
@@ -75,6 +75,10 @@ class Player(pygame.sprite.Sprite):
             
             self.pos.y = chao - self.altura
             self.vel_y = 0
+
+        else:
+            if teclas[pygame.K_s]:
+                self.vel_y += 60
 
         #atualizacao posicao
         self.rect.topleft = self.pos
