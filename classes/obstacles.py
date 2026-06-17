@@ -2,8 +2,8 @@ import pygame
 import random
 
 # Tamanho da tela (tem que bater com o resto do jogo)
-LARGURA_TELA = 1920
-ALTURA_TELA = 1040
+LARGURA_TELA = 1280
+ALTURA_TELA = 720
 
 class Obstaculo:
     """Classe base pra todos os obstáculos do jogo"""
