@@ -93,22 +93,17 @@ game
 ├── main.py
 ├── config.py
 │
-├── player
+├── classes
 │   │
-│   └── player.py
-│
-├── obstacles
-│   │
+│   ├── player.py
 │   ├── obstacles.py
-│   └── spawner.py
-│
-├── items
+│   ├── spawner.py
+│   ├── heart.py[
+│   └── fish.py
+|
+├── utils
 │   │
-│   ├── fish.py
-│   └── heart.py
-│
-├── mechanics
-│   │
+│   ├── colision.py
 │   ├── score.py
 │   └── lives.py
 │

@@ -1,4 +1,6 @@
 import pygame
+import random
+from utils.collision import ColisaoPeixe
 
 pygame.init()
 
@@ -52,10 +54,6 @@ while running:
     pygame.draw.line(screen, 'pink', (0, 620), (1280, 620), width=5)
 
 
-    if player_rect.colliderect(retangulo_teste):
-        print("colidiu")
-
-
     keys = pygame.key.get_pressed()
     
     for event in lista_eventos:
@@ -93,6 +91,17 @@ while running:
     if player_pos.y > 620 - 30:
         player_pos.y = 620 - 30
         condicao_puloduplo = True
+
+
+
+
+
+
+    ColisaoPeixe(player_rect, fish)
+    #colisão peixe player.
+
+
+
 
 
     pygame.display.flip()
