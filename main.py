@@ -3,6 +3,7 @@ import random
 from utils.collision import ColisaoPeixe
 
 pygame.init()
+
 screen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
@@ -10,9 +11,16 @@ running = True
 dt = 0
 gravidade = 675
 forca_pulo = -575
+
 forca_normal = 0
 cntg_pulo = 0
 condicao_puloduplo = True
+pontos = 0
+
+pygame.font.init()
+
+fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
+
 
 
 from classes.fish import Fish
@@ -22,7 +30,7 @@ fish = Fish(screen)
 
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
-while running:
+while running:  
 
     lista_eventos = pygame.event.get()
 
@@ -35,10 +43,13 @@ while running:
 
     forca_normal += gravidade * dt
 
+    texto = fonte_padrão.render(f"Score: {pontos}", True, "white")
+    screen.blit(texto, (1100, 20))
 
-    player_red = pygame.draw.rect(screen, "red", (player_pos.x, player_pos.y, 30, 30))
 
-    retangulo_teste = pygame.draw.rect(screen, 'white', (100, 400, 100, 200))
+    player_rect = pygame.draw.rect(screen, "red", (player_pos.x, player_pos.y, 30, 30))
+
+    retangulo_teste = pygame.draw.rect(screen, 'white', (100, 400, 100, 200)) 
   
     pygame.draw.line(screen, 'pink', (0, 620), (1280, 620), width=5)
 
@@ -86,7 +97,7 @@ while running:
 
 
 
-    ColisaoPeixe(player_red, fish)
+    ColisaoPeixe(player_rect, fish)
     #colisão peixe player.
 
 
