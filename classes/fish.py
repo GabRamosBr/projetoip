@@ -6,7 +6,7 @@ class Fish:
 #    *ATRIBUTOS* ------------------------------------------------------------------------------
     def __init__(self, tela):
 
-        self.fish_types = []                #lista com os tipos de peixes
+        self.fish_types = []                #lista com os tipos de peixes (ainda vou preencher)
         self.screen = tela                  #tela onde os peixes serão desenhados
         self.fish_spawn_rate = 1            #tempo em segundos para o próximo peixe aparecer
         self.fish_list = []                 #lista com os peixes que estão na tela

@@ -1,21 +1,17 @@
-def ColisaoPeixe(player, lista_peixes, pontos):
+def ColisaoPeixe(player, lista_peixes, pontos): 
 
-    for peixe in lista_peixes:
+    for peixe in lista_peixes:   #Verifica todos os peixes na tela
 
-        if player.colliderect(peixe):
+        if player.colliderect(peixe):   #Se o jogador colidir com um peixe
             print('colidiu')
-            pontos += 1
-            lista_peixes.pop(player.collidelist(lista_peixes))
+            pontos += 1                 #Um ponto é adicionado
+            lista_peixes.pop(player.collidelist(lista_peixes))   #E o peixe é removido da tela
 
     return pontos
 
 
   
-def ColisaoObst(player_red, lixo):
-    for lixo in lixo.obst_list:
-        if player_red.colliderect(lixo):
-            print('colidiu lixo')
-# colisão peixe-player
+
 
 
 
