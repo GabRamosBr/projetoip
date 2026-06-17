@@ -1,6 +1,8 @@
 import pygame
 import random
 from utils.collision import ColisaoPeixe
+from utils.collision import ColisaoObst
+
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
@@ -18,7 +20,8 @@ condicao_puloduplo = True
 from classes.fish import Fish
 fish = Fish(screen)
 
-
+from classes.obstacles import Obstaculo
+obst = Obstaculo(screen)
 
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
@@ -56,10 +59,12 @@ while running:
                     condicao_puloduplo = False
                     cntg_pulo = 0
 
-
-
     fish.spawn_time_counter(dt)
     fish.spawn(dt)
+
+    obst.spawn_time_counter(dt)
+    obst.spawn(dt)
+
 
     if keys[pygame.K_s]:
         player_pos.y += 450 * dt
@@ -83,9 +88,8 @@ while running:
 
 
 
-
-
-
+    ColisaoObst(player_red, obst)
+    
     ColisaoPeixe(player_red, fish)
     #colisão peixe player.
 
