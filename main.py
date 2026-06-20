@@ -8,6 +8,7 @@ altura = 720
 chao = 620
 screen = pygame.display.set_mode((largura, altura))
 
+temporizador_peixes = 0
 
 pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
@@ -26,8 +27,10 @@ from utils.collision import ColisaoPeixe
 
 
 #Inicialização do gerador de peixes
-from classes.fish import Fish
-fish = Fish(screen)
+from classes.fishclass import Fish
+from classes.fishclass import FishGenerator
+
+gerador_de_peixes = FishGenerator()
 
 
 #Aparição do jogador
@@ -55,9 +58,17 @@ while running:
 
     screen.fill("black")
 
+    temporizador_peixes += dt
+
     # Geração dos peixes
-    fish.spawn_time_counter(dt)
-    fish.spawn(dt)
+    
+    if temporizador_peixes >= 0.5:
+
+        gerador_de_peixes.Generate_Fish(screen,dt)
+        temporizador_peixes = 0
+
+    gerador_de_peixes.MovingAndDrawing_Fish(screen)
+
 
     
     # Movimentação do jogador
@@ -66,7 +77,7 @@ while running:
 
     #Coleta dos peixes
 
-    score = ColisaoPeixe(anzol.rect, fish.fish_list, score)
+    score, temporizador_buff = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, anzol)
 
     #Pontuação na Tela
     texto = fonte_padrão.render(f"Score: {score}", True, "white")

@@ -65,7 +65,7 @@ class Player(pygame.sprite.Sprite):
             self.vel_y = 0
         
         #pulo
-            if teclas[pygame.K_w]:
+            if teclas[pygame.K_w] or teclas[pygame.K_SPACE]:
                 self.vel_y = self.forca_pulo
 
         #movimentacao na vertical
