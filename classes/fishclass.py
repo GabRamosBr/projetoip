@@ -6,7 +6,7 @@ class Fish:
     def __init__(self,dt):
         
         self.fish_buff = random.choices(('normal', 'dourado', 'invencibilidade', 'velocidade'), [80, 5, 5, 10])[0]
-        self.fish_speed = -200 * dt
+        self.fish_speed = -300 * dt
         self.fish_rect = pygame.Rect(1280, random.randint(100, 500), 50, 10)
 
         
@@ -14,20 +14,24 @@ class Fish:
         if self.fish_buff == 'normal':
             self.fish_color = 'cyan'
             self.fish_effect = 'nada'
+            self.fish_speed = -300 * dt
 
 
         elif self.fish_buff == 'dourado':
             self.fish_color = 'yellow'
             self.fish_effect = 'score 5x'
-
+            self.fish_speed = -400 * dt
+            
 
         elif self.fish_buff == 'invencibilidade':
             self.fish_color = 'gray'
             self.fish_effect = 'invecibility'
+            self.fish_speed = -400 * dt
 
         elif self.fish_buff == 'velocidade':
             self.fish_color = 'light green'
             self.fish_effect = 'speed '
+            self.fish_speed = -550 * dt
         
         else: 
             self.fish_color = 'red'

@@ -8,12 +8,14 @@ altura = 720
 chao = 620
 screen = pygame.display.set_mode((largura, altura))
 
-temporizador_peixes = 0
+
 
 pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
 running = True
 dt = 0
+
+temporizador_peixes = 0
 
 
 pygame.font.init()
@@ -27,8 +29,8 @@ from utils.collision import ColisaoPeixe
 
 
 #Inicialização do gerador de peixes
-from classes.fishclass import Fish
 from classes.fishclass import FishGenerator
+temporizador_buff = 0
 
 gerador_de_peixes = FishGenerator()
 
@@ -56,7 +58,17 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+
+
     screen.fill("black")
+
+        # Movimentação do jogador
+    anzol.andar(largura, chao, dt)
+    screen.blit(anzol.image, anzol.rect)
+
+
+
+
 
     temporizador_peixes += dt
 
@@ -70,18 +82,18 @@ while running:
     gerador_de_peixes.MovingAndDrawing_Fish(screen)
 
 
-    
-    # Movimentação do jogador
-    anzol.andar(largura, chao, dt)
-    screen.blit(anzol.image, anzol.rect)
 
     #Coleta dos peixes
 
-    score, temporizador_buff = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, anzol)
+    score = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, anzol)
+
 
     #Pontuação na Tela
     texto = fonte_padrão.render(f"Score: {score}", True, "white")
     screen.blit(texto, (1100, 20))
+
+    caixa_teste = fonte_padrão.render(f'{anzol.vel_mov}', True, 'white')
+    screen.blit(caixa_teste, (1000, 20))
 
   
     # Movimentação do coração
@@ -94,6 +106,7 @@ while running:
 
     # Chão
     pygame.draw.line(screen, 'pink', (0, 620), (1280, 620), width=5)
+
 
 
 
