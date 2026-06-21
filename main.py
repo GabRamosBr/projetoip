@@ -17,7 +17,11 @@ dt = 0
 
 temporizador_peixes = 0
 
-contador_buff = 0
+temporizador_buff_velocity = False
+contador_buff_velocity = 0
+
+temporizador_buff_invencibility = False
+contador_buff_invencibility = 0
 
 
 pygame.font.init()
@@ -32,8 +36,6 @@ from utils.collision import ColisaoPeixe
 
 #Inicialização do gerador de peixes
 from classes.fishclass import FishGenerator
-temporizador_buff = 0
-
 gerador_de_peixes = FishGenerator()
 
 
@@ -69,13 +71,10 @@ while running:
     screen.blit(anzol.image, anzol.rect)
 
 
-
-
-
-    temporizador_peixes += dt
-
     # Geração dos peixes
     
+    temporizador_peixes += dt
+
     if temporizador_peixes >= 0.5:
 
         gerador_de_peixes.Generate_Fish(screen,dt)
@@ -84,20 +83,31 @@ while running:
     gerador_de_peixes.MovingAndDrawing_Fish(screen)
 
 
-
     #Coleta dos peixes
 
-    score, buff_timer = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, anzol)
+    score, buff_timer, buff_type = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, anzol)
 
     if buff_timer == True:
-        temporizador_buff = True
+        if buff_type == 'velocity':
+            temporizador_buff_velocity = True
+
+        elif buff_type == 'invencibility':
+            temporizador_buff_invencibility = True
+
     
-    if temporizador_buff == True:
-        contador_buff += dt
-        if contador_buff >= 5:
-            temporizador_buff = False
-            contador_buff = 0
+    if temporizador_buff_velocity == True:
+        contador_buff_velocity += dt
+        if contador_buff_velocity >= 10:
+            temporizador_buff_velocity = False
+            contador_buff_velocity = 0
             anzol.vel_mov = 500
+    
+    if temporizador_buff_invencibility == True:
+        contador_buff_invencibility += dt
+        if contador_buff_invencibility >= 5:
+            temporizador_buff_invencibility = False
+            contador_buff_invencibility = 0
+            invenciblity = False
 
 
     #Pontuação na Tela

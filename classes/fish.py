@@ -41,3 +41,8 @@ class Fish:
             if fish.x < -50:                        # se o peixe estiver fora da tela ele é removido da lista
                 self.fish_list.remove(fish)
         return self.fish_list
+
+
+
+
+

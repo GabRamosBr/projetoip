@@ -73,15 +73,21 @@ class FishGenerator:
 
             pygame.draw.rect(tela, f"{fish.fish_color}", fish.fish_rect, width=0)
     
-    def MovingAndDrawing_Fish(self,tela):
+    def MovingAndDrawing_Fish(self,tela): 
 
         for fish in self.fish_list:
 
             fish.Move()
             pygame.draw.rect(tela, f"{fish.fish_color}", fish.fish_rect, width=0)
 
+            if fish.fish_rect.x <= -50:
+                self.fish_rect_list.pop(self.fish_list.index(fish))
+                self.fish_list.remove(fish)
 
-def Buffing():
+
+
+
+
 
     
 

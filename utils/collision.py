@@ -1,11 +1,11 @@
 def ColisaoPeixe(player, lista_peixes, lista_peixesrect, pontos, jogador): 
     
-
-    buff_timer = False
+    temporizador_buff = False
     for peixe in lista_peixes:   #Verifica todos os peixes na tela
 
         if player.colliderect(peixe.fish_rect):   #Se o jogador colidir com um peixe
             pontos += 1                 #Um ponto é adicionado
+            temporizador_buff = True
 
             if peixe.fish_buff == 'dourado':  #Se ele for dourado, ele recebe 5 pontos
                 pontos += 9
@@ -21,7 +21,8 @@ def ColisaoPeixe(player, lista_peixes, lista_peixesrect, pontos, jogador):
                 fish_collided = 'invencibility'
 
             else:
-                fish_collided = 'normal'            
+                fish_collided = 'normal'    
+                temporizador_buff = False        
 
             
             
@@ -29,7 +30,7 @@ def ColisaoPeixe(player, lista_peixes, lista_peixesrect, pontos, jogador):
             lista_peixes.pop(player.collidelist(lista_peixesrect))   #E o peixe é removido da tela
             lista_peixesrect.pop(player.collidelist(lista_peixesrect))  
 
-    return pontos, fish_collided
+    return pontos, temporizador_buff
   
 
 
