@@ -17,6 +17,8 @@ dt = 0
 
 temporizador_peixes = 0
 
+contador_buff = 0
+
 
 pygame.font.init()
 fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
@@ -85,7 +87,17 @@ while running:
 
     #Coleta dos peixes
 
-    score = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, anzol)
+    score, buff_timer = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, anzol)
+
+    if buff_timer == True:
+        temporizador_buff = True
+    
+    if temporizador_buff == True:
+        contador_buff += dt
+        if contador_buff >= 5:
+            temporizador_buff = False
+            contador_buff = 0
+            anzol.vel_mov = 500
 
 
     #Pontuação na Tela

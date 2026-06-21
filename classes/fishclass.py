@@ -81,5 +81,8 @@ class FishGenerator:
             pygame.draw.rect(tela, f"{fish.fish_color}", fish.fish_rect, width=0)
 
 
+def Buffing():
+
+    
 
 
