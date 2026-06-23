@@ -1,4 +1,5 @@
 import pygame
+import os
 
 
 
@@ -19,6 +20,22 @@ pygame.font.init()
 fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
 score = 0
 vidas = 3
+
+#tiles do chão
+tile_largura = 64
+tile_altura = altura - chao
+
+pasta_tiles = os.path.join("assets", "images", "tiles")
+
+tiles_areia = [
+    pygame.image.load(os.path.join(pasta_tiles, "areia-1.png")).convert_alpha(),
+    pygame.image.load(os.path.join(pasta_tiles, "areia-2.png")).convert_alpha(),
+    pygame.image.load(os.path.join(pasta_tiles, "areia-3.png")).convert_alpha(),
+    pygame.image.load(os.path.join(pasta_tiles, "areia-1.png")).convert_alpha()
+]
+
+for i in range(len(tiles_areia)):
+    tiles_areia[i] = pygame.transform.scale(tiles_areia[i], (tile_largura, tile_altura))
 
 #Inicialização das Colisões
 from utils.collision import ColisaoPeixe
@@ -53,7 +70,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill("black")
+    screen.fill("blue")
 
     # Geração dos peixes
     fish.spawn_time_counter(dt)
@@ -83,8 +100,18 @@ while running:
     gerador.atualizar()
     gerador.desenhar(screen)
 
-    # Chão
-    pygame.draw.line(screen, 'pink', (0, 620), (1280, 620), width=5)
+    # Chão 
+    x = 0
+    indice_tile = 0
+
+    while x < largura:
+        screen.blit(tiles_areia[indice_tile], (x, chao))
+
+        x += tile_largura
+        indice_tile += 1
+
+        if indice_tile >= len(tiles_areia):
+            indice_tile = 0
 
 
 
