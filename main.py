@@ -1,5 +1,6 @@
 import pygame
 import os
+import random
 
 
 
@@ -25,13 +26,15 @@ vidas = 3
 tile_largura = 64
 tile_altura = altura - chao
 
-pasta_tiles = os.path.join("assets", "images", "tiles")
+pasta_projeto = os.path.dirname(__file__)
+
+pasta_tiles = os.path.join(pasta_projeto, "assets", "images", "tiles")
 
 tiles_areia = [
     pygame.image.load(os.path.join(pasta_tiles, "areia-1.png")).convert_alpha(),
     pygame.image.load(os.path.join(pasta_tiles, "areia-2.png")).convert_alpha(),
     pygame.image.load(os.path.join(pasta_tiles, "areia-3.png")).convert_alpha(),
-    pygame.image.load(os.path.join(pasta_tiles, "areia-1.png")).convert_alpha()
+    pygame.image.load(os.path.join(pasta_tiles, "areia-4.png")).convert_alpha()
 ]
 
 for i in range(len(tiles_areia)):
@@ -59,6 +62,15 @@ coracao = Heart(screen)
 from classes.spawner import GeradorObstaculos
 gerador = GeradorObstaculos()
 
+    # Chão 
+x = 0
+tiles_usados = []
+
+while x < largura:
+    indice_tile = random.randint(0,3)
+    tiles_usados.append(indice_tile)
+
+    x += tile_largura
 
 
 
@@ -100,19 +112,11 @@ while running:
     gerador.atualizar()
     gerador.desenhar(screen)
 
-    # Chão 
     x = 0
-    indice_tile = 0
 
-    while x < largura:
+    for indice_tile in tiles_usados:
         screen.blit(tiles_areia[indice_tile], (x, chao))
-
         x += tile_largura
-        indice_tile += 1
-
-        if indice_tile >= len(tiles_areia):
-            indice_tile = 0
-
 
 
     pygame.display.flip()
@@ -120,3 +124,4 @@ while running:
     dt = clock.tick(60) / 1000
 
 pygame.quit()
+
