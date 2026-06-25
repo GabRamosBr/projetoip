@@ -16,7 +16,6 @@ dt = 0
 pygame.font.init()
 fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
 score = 0
-vidas = 3
 
 # tiles do chão
 tile_largura = 64
@@ -92,7 +91,8 @@ while running:
         if game_over and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
                 # Restaura os valores iniciais
-                vidas = 3
+                anzol.vidas = anzol.vidas_maximas
+                anzol.is_game_over = False
                 score = 0
                 tempo_dificuldade = 0
                 
@@ -126,11 +126,11 @@ while running:
 
         # Coleta dos peixes e corações
         score = ColisaoPeixe(anzol.rect, fish.fish_list, score)
-        vidas = ColisaoCoração(anzol.rect, coracao.heart_list, vidas)
+        ColisaoCoração(anzol, coracao.heart_list)
 
         # Pontuação na Tela
         texto = fonte_padrão.render(f"Score: {score}", True, "white")
-        texto2 = fonte_padrão.render(f"Vidas: {vidas}", True, "green")
+        texto2 = fonte_padrão.render(f"Vidas: {anzol.vidas}", True, "green")
         screen.blit(texto, (1100, 20))
         screen.blit(texto2, (30, 20))
     
@@ -141,11 +141,11 @@ while running:
         gerador.desenhar(screen)
 
         # Colisão com obstáculos
-        vidas = ColisaoObstaculo(anzol.rect, gerador.lista_obstaculos, vidas)
+        ColisaoObstaculo(anzol, gerador.lista_obstaculos)
 
         # Verifica se as vidas zeraram
-        if vidas <= 0:
-            game_over = True 
+        if anzol.is_game_over:
+            game_over = True
 
         # Escalonamento de dificuldade
         tempo_dificuldade += dt

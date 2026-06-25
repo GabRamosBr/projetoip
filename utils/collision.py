@@ -8,28 +8,21 @@ def ColisaoPeixe(player, lista_peixes, pontos):
             lista_peixes.pop(player.collidelist(lista_peixes))   #E o peixe é removido da tela
 
     return pontos
-def ColisaoCoração(player, lista_coracao, vidas): 
+def ColisaoCoração(anzol, lista_coracao):
 
-    for peixe in lista_coracao:   #Verifica todos os corações na tela
+    for coracao in lista_coracao:   #Verifica todos os corações na tela
 
-        if player.colliderect(peixe):   #Se o jogador colidir com um coração
-            print('colidiu')
-            if vidas < 3:
-                vidas += 1                 #Um ponto é adicionado
-            lista_coracao.pop(player.collidelist(lista_coracao))   #E o coração é removido da tela
+        if anzol.rect.colliderect(coracao):   #Se o jogador colidir com um coração
+            anzol.curar()
+            lista_coracao.pop(anzol.rect.collidelist(lista_coracao))   #E o coração é removido da tela
 
-    return vidas
-
-def ColisaoObstaculo(player, lista_obstaculos, vidas):
+def ColisaoObstaculo(anzol, lista_obstaculos):
 
     for obstaculo in lista_obstaculos[:]:
 
-        if player.colliderect(obstaculo.retangulo):
-            print('colidiu com obstáculo')
-            vidas -= 1
+        if anzol.rect.colliderect(obstaculo.retangulo):
+            anzol.tomar_dano()
             lista_obstaculos.remove(obstaculo)
-
-    return vidas
 
 
 
