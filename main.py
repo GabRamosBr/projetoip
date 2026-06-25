@@ -43,6 +43,7 @@ for i in range(len(tiles_areia)):
 #Inicialização das Colisões
 from utils.collision import ColisaoPeixe
 from utils.collision import ColisaoCoração
+from utils.collision import ColisaoObstaculo
 
 
 #Inicialização do gerador de peixes
@@ -61,6 +62,9 @@ coracao = Heart(screen)
 #Aparição dos obstáculos
 from classes.spawner import GeradorObstaculos
 gerador = GeradorObstaculos()
+
+tempo_dificuldade = 0
+INTERVALO_DIFICULDADE = 20
 
     # Chão 
 x = 0
@@ -111,6 +115,15 @@ while running:
     # Movimentação do obstáculo
     gerador.atualizar()
     gerador.desenhar(screen)
+
+    #Colisão com obstáculos
+    vidas = ColisaoObstaculo(anzol.rect, gerador.lista_obstaculos, vidas)
+
+    #Escalonamento de dificuldade
+    tempo_dificuldade += dt
+    if tempo_dificuldade >= INTERVALO_DIFICULDADE:
+        gerador.aumentar_dificuldade()
+        tempo_dificuldade = 0
 
     x = 0
 
