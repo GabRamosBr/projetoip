@@ -20,7 +20,18 @@ def ColisaoCoração(player, lista_coracao, vidas):
 
     return vidas
 
-  
+def ColisaoObstaculo(player, lista_obstaculos, vidas):
+
+    for obstaculo in lista_obstaculos[:]:
+
+        if player.colliderect(obstaculo.retangulo):
+            print('colidiu com obstáculo')
+            vidas -= 1
+            lista_obstaculos.remove(obstaculo)
+
+    return vidas
+
+
 
 
 
