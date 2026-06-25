@@ -44,21 +44,31 @@ class Obstaculo:
 
 
 class Pedra(Obstaculo):
-    """Pedra que vem da direita e vai pra esquerda"""
+    """Obstáculo que vem da direita e vai pra esquerda"""
+
+    IMAGENS_AEREAS = ["fishbone-side.png", "bottle.png", "trash.png", "apple.png"]
 
     def __init__(self):
-        imagem_original = pygame.image.load(os.path.join(pasta_obstacles, "stone.png")).convert_alpha()
+        no_chao = random.choice([True, False])
+
+        if no_chao:
+            arquivo = "stone.png"
+        else:
+            arquivo = random.choice(self.IMAGENS_AEREAS)
+
+        imagem_original = pygame.image.load(os.path.join(pasta_obstacles, arquivo)).convert_alpha()
         proporcao = imagem_original.get_height() / imagem_original.get_width()
 
         largura = random.randint(80, 100)
         altura = int(largura * proporcao)
 
-        # Começa fora da tela na direita
         posicao_x = LARGURA_TELA + 10
-        # aparece um pouco acima do chão
-        posicao_y = ALTURA_TELA - altura - 87
 
-        # Velocidade horizontal
+        if no_chao:
+            posicao_y = ALTURA_TELA - altura - 87
+        else:
+            posicao_y = random.randint(100, ALTURA_TELA - altura - 150)
+
         velocidade = random.randint(4, 7)
 
         super().__init__(posicao_x, posicao_y, largura, altura, velocidade, "pedra")
