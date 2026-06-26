@@ -1,5 +1,8 @@
+fish_collided = 'nenhum'
+
 def ColisaoPeixe(player, lista_peixes, lista_peixesrect, pontos, jogador): 
     
+    global fish_collided
     temporizador_buff = False
     for peixe in lista_peixes:   #Verifica todos os peixes na tela
 
@@ -23,14 +26,13 @@ def ColisaoPeixe(player, lista_peixes, lista_peixesrect, pontos, jogador):
             else:
                 fish_collided = 'normal'    
                 temporizador_buff = False        
-
             
-            
-
+        
             lista_peixes.pop(player.collidelist(lista_peixesrect))   #E o peixe é removido da tela
             lista_peixesrect.pop(player.collidelist(lista_peixesrect))  
 
-    return pontos, temporizador_buff
+
+    return pontos, temporizador_buff, fish_collided
   
 
 

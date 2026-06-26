@@ -1,7 +1,6 @@
 import pygame
 
 
-
 pygame.init()
 largura = 1280
 altura = 720
@@ -16,13 +15,10 @@ running = True
 dt = 0
 
 temporizador_peixes = 0
+invencibility_buff = False
 
-temporizador_buff_velocity = False
-contador_buff_velocity = 0
-
-temporizador_buff_invencibility = False
-contador_buff_invencibility = 0
-
+fish_spawn_rate = 0.5
+tempo=0
 
 pygame.font.init()
 fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
@@ -73,12 +69,10 @@ while running:
 
     # Geração dos peixes
     
-    temporizador_peixes += dt
 
-    if temporizador_peixes >= 0.5:
 
-        gerador_de_peixes.Generate_Fish(screen,dt)
-        temporizador_peixes = 0
+    gerador_de_peixes.Generating_Fishs(screen,dt,fish_spawn_rate)
+
 
     gerador_de_peixes.MovingAndDrawing_Fish(screen)
 
@@ -87,28 +81,9 @@ while running:
 
     score, buff_timer, buff_type = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, anzol)
 
-    if buff_timer == True:
-        if buff_type == 'velocity':
-            temporizador_buff_velocity = True
-
-        elif buff_type == 'invencibility':
-            temporizador_buff_invencibility = True
-
-    
-    if temporizador_buff_velocity == True:
-        contador_buff_velocity += dt
-        if contador_buff_velocity >= 10:
-            temporizador_buff_velocity = False
-            contador_buff_velocity = 0
-            anzol.vel_mov = 500
-    
-    if temporizador_buff_invencibility == True:
-        contador_buff_invencibility += dt
-        if contador_buff_invencibility >= 5:
-            temporizador_buff_invencibility = False
-            contador_buff_invencibility = 0
-            invenciblity = False
-
+    #Buffs dos peixes
+    from classes.fishclass import Buffing
+    anzol.vel_mov, invencibility_buff = Buffing(buff_timer, buff_type, dt)
 
     #Pontuação na Tela
     texto = fonte_padrão.render(f"Score: {score}", True, "white")
@@ -116,6 +91,11 @@ while running:
 
     caixa_teste = fonte_padrão.render(f'{anzol.vel_mov}', True, 'white')
     screen.blit(caixa_teste, (1000, 20))
+
+    tempo += dt
+    caixa_tempo = fonte_padrão.render(f'{tempo:.1f}',True, 'white')
+    screen.blit(caixa_tempo, (900, 20))
+
 
   
     # Movimentação do coração
