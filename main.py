@@ -104,7 +104,8 @@ while running:
                 tempo_dificuldade = 0
                 
                 # Esvazia as listas para os itens antigos sumirem da tela
-                fish.fish_list.clear()
+                gerador_de_peixes.fish_list.clear()
+                gerador_de_peixes.fish_rect_list.clear()
                 coracao.heart_list.clear()
                 gerador.lista_obstaculos.clear()
                 
@@ -124,32 +125,32 @@ while running:
         screen.blit(imagem_fundo, (fundo_x + largura, 0))
 
 
-    # Movimentação do jogador
-    anzol.andar(largura, chao, dt)
-    screen.blit(anzol.image, anzol.rect)
+        # Movimentação do jogador
+        anzol.andar(largura, chao, dt)
+        screen.blit(anzol.image, anzol.rect)
 
-    # Geração e Movimentação dos peixes
-    gerador_de_peixes.Generating_Fishs(screen,dt,fish_spawn_rate)
-    gerador_de_peixes.MovingAndDrawing_Fish(screen)
+        # Geração e Movimentação dos peixes
+        gerador_de_peixes.Generating_Fishs(screen,dt,fish_spawn_rate)
+        gerador_de_peixes.MovingAndDrawing_Fish(screen)
 
-    #Coleta dos peixes
-    score, buff_timer, buff_type = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score)
+        #Coleta dos peixes
+        score, buff_timer, buff_type = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score)
 
-    #Pontuação na Tela
-    pontuacao_na_tela = fonte_padrão.render(f"Score: {score}", True, "white")
-    screen.blit(pontuacao_na_tela, (1100, 20))
-    vida_na_tela = fonte_padrão.render(f"Vidas: {anzol.vidas}", True, "green")
-    screen.blit(vida_na_tela, (30, 20))
+        #Pontuação na Tela
+        pontuacao_na_tela = fonte_padrão.render(f"Score: {score}", True, "white")
+        screen.blit(pontuacao_na_tela, (1100, 20))
+        vida_na_tela = fonte_padrão.render(f"Vidas: {anzol.vidas}", True, "green")
+        screen.blit(vida_na_tela, (30, 20))
 
 
-  
-    # Movimentação do coração
-    screen.blit(coracao.image, coracao.rect)
-    coracao.update()
+    
+        # Movimentação do coração
+        screen.blit(coracao.image, coracao.rect)
+        coracao.update()
 
-    # Movimentação do obstáculo
-    gerador.atualizar()
-    gerador.desenhar(screen)
+        # Movimentação do obstáculo
+        gerador.atualizar()
+        gerador.desenhar(screen)
 
         # Colisão com obstáculos
         ColisaoObstaculo(anzol, gerador.lista_obstaculos)
