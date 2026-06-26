@@ -26,6 +26,9 @@ class GeradorObstaculos:
         # Intervalo atual entre gerações
         self.intervalo_atual = INTERVALO_GERACAO
 
+        # Bonus de velocidade que aumenta com a dificuldade
+        self.bonus_velocidade = 0
+
     def gerar_obstaculo(self):
         # Sorteia qual obstáculo vai aparecer
         sorteio = random.randint(0, 1)
@@ -37,6 +40,7 @@ class GeradorObstaculos:
             # Cria um lixo caindo do topo
             novo = Lixo()
 
+        novo.velocidade += self.bonus_velocidade
         self.lista_obstaculos.append(novo)
 
     def atualizar(self):
@@ -65,6 +69,8 @@ class GeradorObstaculos:
         # Diminui o intervalo pra gerar obstáculos mais rápido (mínimo de 500ms)
         if self.intervalo_atual > 500:
             self.intervalo_atual -= 100
+        # Aumenta a velocidade dos novos obstáculos
+        self.bonus_velocidade += 1
 
     def obter_retangulos(self):
         """

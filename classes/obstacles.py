@@ -1,9 +1,14 @@
 import pygame
 import random
+import os
 
 # Tamanho da tela (tem que bater com o resto do jogo)
 LARGURA_TELA = 1280
 ALTURA_TELA = 720
+
+pasta_atual = os.path.dirname(__file__)
+pasta_projeto = os.path.dirname(pasta_atual)
+pasta_obstacles = os.path.join(pasta_projeto, "assets", "images", "obstacles")
 
 class Obstaculo:
     """Classe base pra todos os obstáculos do jogo"""
@@ -39,26 +44,36 @@ class Obstaculo:
 
 
 class Pedra(Obstaculo):
-    """Pedra que vem da direita e vai pra esquerda"""
+    """Obstáculo que vem da direita e vai pra esquerda"""
 
-    # Cor temporária pra teste — marrom
-    COR = (139, 90, 43)
-    COR_BORDA = (90, 55, 20)
+    IMAGENS_AEREAS = ["fishbone-side.png", "bottle.png", "trash.png", "apple.png"]
 
     def __init__(self):
-        largura = 80
-        altura = 80
+        no_chao = random.choice([True, False])
 
-        # Começa fora da tela na direita
+        if no_chao:
+            arquivo = "stone.png"
+        else:
+            arquivo = random.choice(self.IMAGENS_AEREAS)
+
+        imagem_original = pygame.image.load(os.path.join(pasta_obstacles, arquivo)).convert_alpha()
+        proporcao = imagem_original.get_height() / imagem_original.get_width()
+
+        largura = random.randint(80, 100)
+        altura = int(largura * proporcao)
+
         posicao_x = LARGURA_TELA + 10
-        # aparece um pouco acima do chão
-        posicao_y = ALTURA_TELA - altura - 87
 
+        if no_chao:
+            posicao_y = ALTURA_TELA - altura - 87
+        else:
+            posicao_y = random.randint(100, ALTURA_TELA - altura - 150)
 
-        # Velocidade horizontal
         velocidade = random.randint(4, 7)
 
         super().__init__(posicao_x, posicao_y, largura, altura, velocidade, "pedra")
+
+        self.imagem = pygame.transform.scale(imagem_original, (largura, altura))
 
     def atualizar(self):
         # Faz a pedra vir da direita pra esquerda
@@ -66,20 +81,21 @@ class Pedra(Obstaculo):
         super().atualizar()
 
     def desenhar(self, tela):
-        pygame.draw.rect(tela, self.COR, self.retangulo, border_radius=6)
-        pygame.draw.rect(tela, self.COR_BORDA, self.retangulo, width=2, border_radius=6)
+        tela.blit(self.imagem, self.retangulo)
 
 
 class Lixo(Obstaculo):
     """Lixo que cai do topo da tela pra baixo"""
 
-    # Cor temporária pra teste — verde escuro de saco de lixo
-    COR = (34, 120, 50)
-    COR_BORDA = (10, 60, 20)
+    IMAGENS_LIXO = ["apple.png", "bottle.png", "fishbone.png", "trash.png"]
 
     def __init__(self):
-        largura = random.randint(25, 45)
-        altura = random.randint(35, 55)
+        arquivo = random.choice(self.IMAGENS_LIXO)
+        imagem_original = pygame.image.load(os.path.join(pasta_obstacles, arquivo)).convert_alpha()
+        proporcao = imagem_original.get_height() / imagem_original.get_width()
+
+        largura = random.randint(50, 70)
+        altura = int(largura * proporcao)
 
         # Aparece em qualquer lugar no topo
         posicao_x = random.randint(20, LARGURA_TELA - 50)
@@ -90,16 +106,12 @@ class Lixo(Obstaculo):
 
         super().__init__(posicao_x, posicao_y, largura, altura, velocidade, "lixo")
 
+        self.imagem = pygame.transform.scale(imagem_original, (largura, altura))
+
     def atualizar(self):
         # Faz o lixo cair de cima pra baixo
         self.posicao_y += self.velocidade
         super().atualizar()
 
     def desenhar(self, tela):
-        pygame.draw.rect(tela, self.COR, self.retangulo, border_radius=4)
-        pygame.draw.rect(tela, self.COR_BORDA, self.retangulo, width=2, border_radius=4)
-
-        # Detalhe da amarração do saco no topo
-        amarracao_x = self.retangulo.centerx - 8
-        amarracao_y = self.retangulo.top
-        pygame.draw.rect(tela, (20, 80, 30), (amarracao_x, amarracao_y, 16, 8), border_radius=2)
+        tela.blit(self.imagem, self.retangulo)
