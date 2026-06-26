@@ -18,7 +18,6 @@ temporizador_peixes = 0
 invencibility_buff = False
 
 fish_spawn_rate = 0.5
-tempo=0
 
 pygame.font.init()
 fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
@@ -62,57 +61,47 @@ while running:
 
     screen.fill("black")
 
-        # Movimentação do jogador
+
+    # Movimentação do jogador
     anzol.andar(largura, chao, dt)
     screen.blit(anzol.image, anzol.rect)
 
 
-    # Geração dos peixes
-    
-
-
+    # Geração e Movimentação dos peixes
     gerador_de_peixes.Generating_Fishs(screen,dt,fish_spawn_rate)
-
-
     gerador_de_peixes.MovingAndDrawing_Fish(screen)
 
 
-    #Coleta dos peixes
-
+    # Coleta dos peixes
     score, buff_timer, buff_type = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, anzol)
 
-    #Buffs dos peixes
+
+    # Buffs dos peixes
     from classes.fishclass import Buffing
     anzol.vel_mov, invencibility_buff = Buffing(buff_timer, buff_type, dt)
 
-    #Pontuação na Tela
-    texto = fonte_padrão.render(f"Score: {score}", True, "white")
-    screen.blit(texto, (1100, 20))
 
-    caixa_teste = fonte_padrão.render(f'{anzol.vel_mov}', True, 'white')
-    screen.blit(caixa_teste, (1000, 20))
-
-    tempo += dt
-    caixa_tempo = fonte_padrão.render(f'{tempo:.1f}',True, 'white')
-    screen.blit(caixa_tempo, (900, 20))
+    # Pontuação na Tela
+    pontuacao_na_tela = fonte_padrão.render(f"Score: {score}", True, "white")
+    screen.blit(pontuacao_na_tela, (1100, 20))
 
 
-  
     # Movimentação do coração
     screen.blit(coracao.image, coracao.rect)
     coracao.update()
+
 
     # Movimentação do obstáculo
     gerador.atualizar()
     gerador.desenhar(screen)
 
+
     # Chão
     pygame.draw.line(screen, 'pink', (0, 620), (1280, 620), width=5)
 
 
-
-
     pygame.display.flip()
+
 
     dt = clock.tick(60) / 1000
 
