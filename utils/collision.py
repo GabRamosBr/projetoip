@@ -54,13 +54,14 @@ def ColisaoCoração(anzol, lista_coracao):
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
 
 
-def ColisaoObstaculo(anzol, lista_obstaculos):
+def ColisaoObstaculo(anzol, lista_obstaculos, invencibility_buff):
 
-    for obstaculo in lista_obstaculos[:]:
-
-        if anzol.rect.colliderect(obstaculo.retangulo):
-            anzol.tomar_dano()
-            lista_obstaculos.remove(obstaculo)
+    if not invencibility_buff:
+        for obstaculo in lista_obstaculos[:]:
+    
+            if anzol.rect.colliderect(obstaculo.retangulo):
+                anzol.tomar_dano()
+                lista_obstaculos.remove(obstaculo)
 
 
 
