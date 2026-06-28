@@ -61,6 +61,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 500
         self.forca_pulo = -700
         self.vel_y = 0
+        self.vel_baixo = 60
         self.no_chao = True
 
         #junta posicao imagem e retangulo da imagem
@@ -108,12 +109,12 @@ class Player(pygame.sprite.Sprite):
             self.pos.x = largura_tela - self.largura
 
         #pulo
-        if teclas[pygame.K_w] and self.no_chao:
+        if (teclas[pygame.K_w] or teclas[pygame.K_SPACE]) and self.no_chao:
             self.vel_y = self.forca_pulo
             self.no_chao = False
 
         if teclas[pygame.K_s] and not(self.no_chao):
-            self.vel_y += 60
+            self.vel_y += self.vel_baixo
 
         #movimentacao na vertical
         self.pos.y += self.vel_y * dt
