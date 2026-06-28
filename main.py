@@ -51,9 +51,10 @@ from utils.collision import ColisaoCoração
 from utils.collision import ColisaoObstaculo
 
 
-# Inicialização do gerador de peixes
+# Inicialização do gerador de peixes e do Buffer
 from classes.fish import FishGenerator
 gerador_de_peixes = FishGenerator()
+from classes.fishclass import Buffing
 
 
 # Aparição do jogador
@@ -154,6 +155,10 @@ while running:
         gerador_de_peixes.MovingAndDrawing_Fish(screen)
 
 
+        # Gerenciamento dos Buffs
+        anzol.vel_mov, anzol.vel_baixo, invencibility_buff = Buffing(buff_timer, buff_type, dt)
+
+        
         #Coleta dos peixes
         score, buff_timer, buff_type = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score)
 
