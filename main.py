@@ -52,9 +52,10 @@ from utils.collision import ColisaoObstaculo
 
 
 # Inicialização do gerador de peixes e do Buffer
+from classes.fish import Buffing
 from classes.fish import FishGenerator
 gerador_de_peixes = FishGenerator()
-from classes.fishclass import Buffing
+
 
 
 # Aparição do jogador
@@ -154,13 +155,14 @@ while running:
         gerador_de_peixes.Generating_Fishs(screen,dt,fish_spawn_rate)
         gerador_de_peixes.MovingAndDrawing_Fish(screen)
 
+        
+        #Coleta dos Peixes e dos Corações
+        score, buff_timer, buff_type = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score)
+        ColisaoCoração(anzol, coracao.heart_list)
+
 
         # Gerenciamento dos Buffs
         anzol.vel_mov, anzol.vel_baixo, invencibility_buff = Buffing(buff_timer, buff_type, dt)
-
-        
-        #Coleta dos peixes
-        score, buff_timer, buff_type = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score)
 
 
         #Pontuação na Tela
@@ -170,18 +172,18 @@ while running:
         screen.blit(vida_na_tela, (30, 20))
 
 
-        # Movimentação do coração
-        screen.blit(coracao.image, coracao.rect)
-        coracao.update()
+        # Movimentação do Coração
+        coracao.spawn_time_counter(dt)
+        coracao.spawn(dt)
 
 
-        # Movimentação do obstáculo
+        # Movimentação do Obstáculo
         gerador.atualizar()
         gerador.desenhar(screen)
 
 
         # Colisão com obstáculos
-        ColisaoObstaculo(anzol, gerador.lista_obstaculos)
+        ColisaoObstaculo(anzol, gerador.lista_obstaculos, invencibility_buff)
 
 
         # Verifica se as vidas zeraram
