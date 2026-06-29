@@ -14,7 +14,7 @@ class Fish:
 
     def __init__(self,dt):
         
-        self.fish_buff = random.choices(('normal', 'dourado', 'invencibilidade', 'velocidade'), [80, 1, 1, 3])[0] #O buff do peixe é escolhido aleatóriamente
+        self.fish_buff = random.choices(('normal', 'dourado', 'invencibilidade', 'velocidade'), [80, 3, 2, 3])[0] #O buff do peixe é escolhido aleatóriamente
         self.fish_speed = -300 * dt  # Velocidade padrao dos peixes
         self.fish_rect = pygame.Rect(1920, random.randint(100, 800), 50, 30) #O peixe é criado em uma altura aleatória
 

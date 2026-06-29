@@ -13,7 +13,7 @@ pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
 running = True
 dt = 0
-TEMPO_DE_JOGO = 0
+
 
 #Variáveis que influênciam nos peixes
 invencibility_buff = False
@@ -72,6 +72,8 @@ coracao = Heart(screen)
 from classes.spawner import GeradorObstaculos
 gerador = GeradorObstaculos()
 
+# Por textos na Tela
+from utils.texts import PontuacaoNaTela, VidaNaTela, BuffsNaTela, TempoNaTela
 
 tempo_dificuldade = 0
 INTERVALO_DIFICULDADE = 20
@@ -164,30 +166,12 @@ while running:
         # Gerenciamento dos Buffs
         anzol.vel_mov, anzol.vel_baixo, invencibility_buff, temporizador_buff2, temporizador_buff1 = Buffing(buff_timer, buff_type, dt)
 
+        #Textos na tela
+        VidaNaTela(fonte_padrão, screen, anzol)
+        BuffsNaTela(fonte_padrão, screen, invencibility_buff, temporizador_buff2, anzol, temporizador_buff1)
+        TempoNaTela(fonte_padrão, screen, dt)
+        PontuacaoNaTela(fonte_padrão, screen, score)
 
-        #Pontuação na Tela
-        pontuacao_na_tela = fonte_padrão.render(f"Score: {score}", True, "black")
-        screen.blit(pontuacao_na_tela, (1750, 20))
-        vida_na_tela = fonte_padrão.render(f"Vidas: {anzol.vidas}", True, "red")
-        screen.blit(vida_na_tela, (30, 20))
-
-        #Buffs na Tela
-        if invencibility_buff == True:
-
-            buff_invencibilidade_na_tela = fonte_padrão.render(f"{(10 - temporizador_buff2):.2f}", True, 'gray')
-            screen.blit(buff_invencibilidade_na_tela, (1600, 20))
-
-
-        if anzol.vel_mov > 500:
-
-            buff_velocidade_na_tela = fonte_padrão.render(f"{(10 - temporizador_buff1):.2f}", True, 'dark green')
-            screen.blit(buff_velocidade_na_tela, (1500,20))
-
-        #Tempo de Jogo na Tela
-
-        tempo_de_jogo_na_tela = fonte_padrão.render(f'{TEMPO_DE_JOGO:.1f}', True, 'black')
-        TEMPO_DE_JOGO += dt
-        screen.blit(tempo_de_jogo_na_tela,(920,20))
 
         # Movimentação do Coração
         coracao.spawn_time_counter(dt)

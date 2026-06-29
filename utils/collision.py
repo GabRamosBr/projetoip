@@ -56,12 +56,14 @@ def ColisaoCoração(anzol, lista_coracao):
 
 def ColisaoObstaculo(anzol, lista_obstaculos, invencibility_buff):
 
-    if not invencibility_buff:
-        for obstaculo in lista_obstaculos[:]:
-    
-            if anzol.rect.colliderect(obstaculo.retangulo):
-                anzol.tomar_dano()
-                lista_obstaculos.remove(obstaculo)
+    for obstaculo in lista_obstaculos[:]:
+
+        if anzol.rect.colliderect(obstaculo.retangulo):   # Se houver colisão
+
+            lista_obstaculos.remove(obstaculo)        # O obstáculo é removido da tela
+
+            if not invencibility_buff:              # Se o player não estiver com o buff de invencibilidade
+                anzol.tomar_dano()                  # Ele toma dano
 
 
 
