@@ -3,9 +3,9 @@ import os
 import random
 
 pygame.init()
-largura = 1280
-altura = 720
-chao = 620
+largura = 1920
+altura = 1080
+chao = 920
 screen = pygame.display.set_mode((largura, altura))
 
 
@@ -13,7 +13,7 @@ pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
 running = True
 dt = 0
-
+TEMPO_DE_JOGO = 0
 
 #Variáveis que influênciam nos peixes
 invencibility_buff = False
@@ -25,7 +25,7 @@ score = 0
 
 
 # tiles do chão
-tile_largura = 64
+tile_largura = 89
 tile_altura = altura - chao
 
 
@@ -88,14 +88,13 @@ imagem_fundo = pygame.transform.scale(imagem_fundo, (largura, altura))
 
 
 fundo_x = 0
-velocidade_fundo = 40  # Velocidade da correnteza 
+velocidade_fundo = 50  # Velocidade da correnteza 
 
 
 while x < largura:
     indice_tile = random.randint(0, 3)
     tiles_usados.append(indice_tile)
     x += tile_largura
-
 
 game_over = False
 caminho_gameover = os.path.join(pasta_projeto, "assets", "images", "tela-gameover.png")
@@ -120,6 +119,7 @@ while running:
                 anzol.is_game_over = False
                 score = 0
                 tempo_dificuldade = 0
+                TEMPO_DE_JOGO = 0
                 
                 # Esvazia as listas para os itens antigos sumirem da tela
                 gerador_de_peixes.fish_list.clear()
@@ -162,15 +162,32 @@ while running:
 
 
         # Gerenciamento dos Buffs
-        anzol.vel_mov, anzol.vel_baixo, invencibility_buff = Buffing(buff_timer, buff_type, dt)
+        anzol.vel_mov, anzol.vel_baixo, invencibility_buff, temporizador_buff2, temporizador_buff1 = Buffing(buff_timer, buff_type, dt)
 
 
         #Pontuação na Tela
-        pontuacao_na_tela = fonte_padrão.render(f"Score: {score}", True, "white")
-        screen.blit(pontuacao_na_tela, (1100, 20))
-        vida_na_tela = fonte_padrão.render(f"Vidas: {anzol.vidas}", True, "green")
+        pontuacao_na_tela = fonte_padrão.render(f"Score: {score}", True, "black")
+        screen.blit(pontuacao_na_tela, (1750, 20))
+        vida_na_tela = fonte_padrão.render(f"Vidas: {anzol.vidas}", True, "red")
         screen.blit(vida_na_tela, (30, 20))
 
+        #Buffs na Tela
+        if invencibility_buff == True:
+
+            buff_invencibilidade_na_tela = fonte_padrão.render(f"{(10 - temporizador_buff2):.2f}", True, 'gray')
+            screen.blit(buff_invencibilidade_na_tela, (1600, 20))
+
+
+        if anzol.vel_mov > 500:
+
+            buff_velocidade_na_tela = fonte_padrão.render(f"{(10 - temporizador_buff1):.2f}", True, 'dark green')
+            screen.blit(buff_velocidade_na_tela, (1500,20))
+
+        #Tempo de Jogo na Tela
+
+        tempo_de_jogo_na_tela = fonte_padrão.render(f'{TEMPO_DE_JOGO:.1f}', True, 'black')
+        TEMPO_DE_JOGO += dt
+        screen.blit(tempo_de_jogo_na_tela,(920,20))
 
         # Movimentação do Coração
         coracao.spawn_time_counter(dt)

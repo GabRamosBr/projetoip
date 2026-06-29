@@ -14,9 +14,9 @@ class Fish:
 
     def __init__(self,dt):
         
-        self.fish_buff = random.choices(('normal', 'dourado', 'invencibilidade', 'velocidade'), [80, 5, 5, 10])[0] #O buff do peixe é escolhido aleatóriamente
+        self.fish_buff = random.choices(('normal', 'dourado', 'invencibilidade', 'velocidade'), [80, 1, 1, 3])[0] #O buff do peixe é escolhido aleatóriamente
         self.fish_speed = -300 * dt  # Velocidade padrao dos peixes
-        self.fish_rect = pygame.Rect(1280, random.randint(100, 500), 50, 10) #O peixe é criado em uma altura aleatória
+        self.fish_rect = pygame.Rect(1920, random.randint(100, 800), 50, 30) #O peixe é criado em uma altura aleatória
 
         
         # Características para cada buff
@@ -84,7 +84,7 @@ class FishGenerator:
 
                 pygame.draw.rect(tela, f"{fish.fish_color}", fish.fish_rect, width=0) #Criam-se os peixes na tela
 
-        self.spawn_timer = 0
+            self.spawn_timer = 0
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
 
@@ -116,9 +116,11 @@ def Buffing(buff_spawn_timer, buff_type, dt):
 
         if buff_type == 'speed':      # Vê se o temporizador de velocidade
             temporizador_buff_velocity = True
+            contador_buff_velocity = 0
 
         elif buff_type == 'invencibility': # Ou de invencibilidade
             temporizador_buff_invencibility = True 
+            contador_buff_invencibility = 0
     
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
 
@@ -150,11 +152,13 @@ def Buffing(buff_spawn_timer, buff_type, dt):
             temporizador_buff_invencibility = False  # O temporizador é desligado
             contador_buff_invencibility = 0          # E resetado
             buff_invencibilidade = False             # E o buff é desligado
+
+
     else:
-        buff_invencibilidade = False
+        buff_invencibilidade = False  # Apenas para evitar erros
 
 
-    return buff_velocidade, buff_descida, buff_invencibilidade, 
+    return buff_velocidade, buff_descida, buff_invencibilidade, contador_buff_invencibility, contador_buff_velocity
 
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
