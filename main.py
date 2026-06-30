@@ -173,8 +173,11 @@ while running:
 
         #Textos na tela
         VidaNaTela(fonte_padrão, screen, anzol)
+
         BuffsNaTela(fonte_padrão, screen, invencibility_buff, temporizador_buff2, anzol, temporizador_buff1)
+        
         TempoNaTela(fonte_padrão, screen, dt)
+
         PontuacaoNaTela(fonte_padrão, screen, score)
 
 
