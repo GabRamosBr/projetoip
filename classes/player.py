@@ -28,14 +28,42 @@ class Player(pygame.sprite.Sprite):
             ],
 
             "jump_facing": [
-            self.carregar_imagem("anzol-facing-jump-1.png"),
-            self.carregar_imagem("anzol-facing-jump-2.png")
+                self.carregar_imagem("anzol-facing-jump-1.png"),
+                self.carregar_imagem("anzol-facing-jump-2.png")
             ],
 
             "jump_side": [
-            self.carregar_imagem("anzol-side-jump-1.png"),
-            self.carregar_imagem("anzol-side-jump-2.png")
-            ]
+                self.carregar_imagem("anzol-side-jump-1.png"),
+                self.carregar_imagem("anzol-side-jump-2.png")
+            ],
+            
+            "idle_hit" : [
+                self.carregar_imagem("anzol-idle.png"),
+                self.carregar_imagem("anzol-hit-idle.png")
+            ],
+
+            "running_hit" : [
+                self.carregar_imagem("anzol-running-1.png"),
+                self.carregar_imagem("anzol-hit-running-1.png"),
+                self.carregar_imagem("anzol-idle-side.png"),
+                self.carregar_imagem("anzol-hit-idle-side.png"),
+                self.carregar_imagem("anzol-running-2.png"),
+                self.carregar_imagem("anzol-hit-running-2.png")
+            ],
+
+            "jump_facing_hit": [
+                self.carregar_imagem("anzol-facing-jump-1.png"),
+                self.carregar_imagem("anzol-hit-facing-jump-1.png"),
+                self.carregar_imagem("anzol-facing-jump-2.png"),
+                self.carregar_imagem("anzol-hit-facing-jump-2.png"),
+            ],
+
+            "jump_side_hit": [
+                self.carregar_imagem("anzol-side-jump-1.png"),
+                self.carregar_imagem("anzol-hit-side-jump-1.png"),
+                self.carregar_imagem("anzol-side-jump-2.png"),
+                self.carregar_imagem("anzol-hit-side-jump-2.png")
+            ],
         }
 
         self.estado = "idle"
@@ -81,7 +109,7 @@ class Player(pygame.sprite.Sprite):
         return imagem
 
     #metodo andar para movimentação
-    def andar(self, largura_tela, chao, dt): #é preciso considerar a largura da tela
+    def andar(self, largura_tela, chao, dt, dano): #é preciso considerar a largura da tela
         
         movendo = False
 
@@ -128,14 +156,26 @@ class Player(pygame.sprite.Sprite):
         
         if not(self.no_chao):
             if movendo:
-                self.mudar_estado("jump_side")
+                if dano:
+                    self.mudar_estado("jump_side_hit")
+                else:
+                    self.mudar_estado("jump_side")
             else:
-                self.mudar_estado("jump_facing")
+                if dano:
+                    self.mudar_estado("jump_facing_hit")
+                else:
+                    self.mudar_estado("jump_facing")
         else:
             if movendo:
-                self.mudar_estado("running")
+                if dano:
+                    self.mudar_estado("running_hit")
+                else:
+                    self.mudar_estado("running")
             else:
-                self.mudar_estado("idle")
+                if dano:
+                    self.mudar_estado("idle_hit")
+                else:
+                    self.mudar_estado("idle")
 
         self.atualizar_animacao(dt)
 

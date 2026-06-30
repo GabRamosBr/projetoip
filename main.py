@@ -20,6 +20,9 @@ TEMPO_DE_JOGO = 0
 invencibility_buff = False
 fish_spawn_rate = 0.5
 
+#flag de hit
+dano = False
+
 pygame.font.init()
 fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
 score = 0
@@ -61,7 +64,7 @@ gerador_de_peixes = FishGenerator()
 
 # Aparição do jogador
 from classes.player import Player
-anzol = Player(largura, altura)
+anzol = Player(largura, chao)
 
 
 # Aparição dos corações
@@ -77,9 +80,10 @@ gerador = GeradorObstaculos()
 from utils.texts import VidaNaTela, BuffsNaTela, TempoNaTela, PontuacaoNaTela
 
 
-
+tempo_dano = 0
 tempo_dificuldade = 0
 INTERVALO_DIFICULDADE = 20
+INTERVALO_DANO = 3
 
 
 # Chão 
@@ -125,7 +129,9 @@ while running:
                 anzol.is_game_over = False
                 score = 0
                 tempo_dificuldade = 0
+                tempo_dano = 0
                 TEMPO_DE_JOGO = 0
+                dano = False
                 
                 # Esvazia as listas para os itens antigos sumirem da tela
                 gerador_de_peixes.fish_list.clear()
@@ -153,7 +159,7 @@ while running:
 
 
         # Movimentação do jogador
-        anzol.andar(largura, chao, dt)
+        anzol.andar(largura, chao, dt, dano)
         screen.blit(anzol.image, anzol.rect)
 
 
@@ -163,8 +169,8 @@ while running:
 
         
         #Coleta dos Peixes e dos Corações
-        score, buff_timer, buff_type = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score)
-        ColisaoCoração(anzol, coracao.heart_list)
+        score, buff_timer, buff_type = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, dano)
+        ColisaoCoração(anzol, coracao.heart_list, dano)
 
 
         # Gerenciamento dos Buffs
@@ -192,7 +198,7 @@ while running:
 
 
         # Colisão com obstáculos
-        ColisaoObstaculo(anzol, gerador.lista_obstaculos, invencibility_buff)
+        dano = ColisaoObstaculo(anzol, gerador.lista_obstaculos, invencibility_buff, dano)
 
 
         # Verifica se as vidas zeraram
@@ -205,6 +211,13 @@ while running:
         if tempo_dificuldade >= INTERVALO_DIFICULDADE:
             gerador.aumentar_dificuldade()
             tempo_dificuldade = 0
+
+        # Invulnerabilidade dano
+        if dano:
+            tempo_dano += dt
+            if tempo_dano >= INTERVALO_DANO:
+                tempo_dano = 0
+                dano = False
 
 
         # Chão
