@@ -152,7 +152,7 @@ while running:
 
 
         # Geração e Movimentação dos peixes
-        gerador_de_peixes.Generating_Fishs(screen,dt,fish_spawn_rate)
+        gerador_de_peixes.Generating_Fishs(dt,fish_spawn_rate)
         gerador_de_peixes.MovingAndDrawing_Fish(screen)
 
         

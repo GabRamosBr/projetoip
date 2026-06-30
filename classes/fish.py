@@ -1,11 +1,19 @@
 import pygame
 import random
-
+import os
 
 temporizador_buff_velocity = False
 temporizador_buff_invencibility = False
 contador_buff_velocity = 0
 contador_buff_invencibility = 0
+
+
+
+pasta_projeto = os.path.dirname(os.path.dirname(__file__))
+
+pasta_sprites_peixes = os.path.join(pasta_projeto, "assets", "images", "peixes")
+
+
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
 
@@ -16,35 +24,47 @@ class Fish:
         
         self.fish_buff = random.choices(('normal', 'dourado', 'invencibilidade', 'velocidade'), [80, 5, 5, 10])[0] #O buff do peixe é escolhido aleatóriamente
         self.fish_speed = -300 * dt  # Velocidade padrao dos peixes
-        self.fish_rect = pygame.Rect(1280, random.randint(100, 500), 50, 10) #O peixe é criado em uma altura aleatória
+        self.fish_rect = pygame.Rect(1280, random.randint(100, 500), 65, 30) #O peixe é criado em uma altura aleatória
+
+        self.fish_image = 'peixe-sprite-1.png'
 
         
         # Características para cada buff
         if self.fish_buff == 'normal':   
             self.fish_color = 'cyan'
             self.fish_effect = 'nada'
-            self.fish_speed = -300 * dt
+            self.fish_speed = random.randint(-350, -300 )* dt
+            self.fish_image = 'peixe-sprite-1.png'
+
 
 
         elif self.fish_buff == 'dourado':
             self.fish_color = 'yellow'
             self.fish_effect = 'score 5x'
             self.fish_speed = -400 * dt
-            
+            self.fish_image = 'peixe-sprite-2.png'
 
         elif self.fish_buff == 'invencibilidade':
             self.fish_color = 'gray'
             self.fish_effect = 'invecibility'
             self.fish_speed = -400 * dt
+            self.fish_image = 'peixe-sprite-4.png'
 
 
         elif self.fish_buff == 'velocidade':
             self.fish_color = 'light green'
             self.fish_effect = 'speed '
             self.fish_speed = -550 * dt
-        
+            self.fish_image = 'peixe-sprite-3.png'
+
         else:   #Se o peixe for vermelho é porque há algum erro no código
             self.fish_color = 'red'
+
+        caminho_imagem = os.path.join(pasta_sprites_peixes, self.fish_image)
+        self.image = pygame.image.load(caminho_imagem).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (self.fish_rect.width, self.fish_rect.height))
+
+
         
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
     
@@ -67,7 +87,7 @@ class FishGenerator:
     
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
 
-    def Generating_Fishs(self, tela, dt, spawn_rate):
+    def Generating_Fishs(self, dt, spawn_rate):
 
         self.spawn_timer += dt    
 
@@ -80,11 +100,8 @@ class FishGenerator:
             self.fish_list.append(caixa)     # E ele é adicionado às listas
             self.fish_rect_list.append(caixa.fish_rect)
             
-            for fish in self.fish_list:
 
-                pygame.draw.rect(tela, f"{fish.fish_color}", fish.fish_rect, width=0) #Criam-se os peixes na tela
-
-        self.spawn_timer = 0
+            self.spawn_timer = 0
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
 
@@ -93,7 +110,7 @@ class FishGenerator:
         for fish in self.fish_list:
 
             fish.Move()
-            pygame.draw.rect(tela, f"{fish.fish_color}", fish.fish_rect, width=0)  #Move o peixe na tela
+            tela.blit(fish.image, fish.fish_rect)  #Move o peixe na tela
 
             if fish.fish_rect.x <= -50:                         # Se ele sair da tela
                 self.fish_rect_list.pop(self.fish_list.index(fish))
