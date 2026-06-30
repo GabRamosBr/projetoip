@@ -3,8 +3,8 @@ import random
 from classes.obstacles import Pedra, Lixo
 
 # Tamanho da tela pra saber quando remover os obstáculos
-LARGURA_TELA = 1280
-ALTURA_TELA = 720
+LARGURA_TELA = 1920
+ALTURA_TELA = 1080
 
 # Intervalo em milissegundos entre cada geração de obstáculo
 INTERVALO_GERACAO = 1500
