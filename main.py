@@ -3,9 +3,9 @@ import os
 import random
 
 pygame.init()
-largura = 1280
-altura = 720
-chao = 620
+largura = 1920
+altura = 1080
+chao = 920
 screen = pygame.display.set_mode((largura, altura))
 
 
@@ -13,6 +13,7 @@ pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
 running = True
 dt = 0
+TEMPO_DE_JOGO = 0
 
 
 #Variáveis que influênciam nos peixes
@@ -25,7 +26,7 @@ score = 0
 
 
 # tiles do chão
-tile_largura = 64
+tile_largura = 89
 tile_altura = altura - chao
 
 
@@ -72,6 +73,10 @@ coracao = Heart(screen)
 from classes.spawner import GeradorObstaculos
 gerador = GeradorObstaculos()
 
+#Funções de Texto na Tela
+from utils.texts import VidaNaTela, BuffsNaTela, TempoNaTela, PontuacaoNaTela
+
+
 
 tempo_dificuldade = 0
 INTERVALO_DIFICULDADE = 20
@@ -88,7 +93,7 @@ imagem_fundo = pygame.transform.scale(imagem_fundo, (largura, altura))
 
 
 fundo_x = 0
-velocidade_fundo = 40  # Velocidade da correnteza 
+velocidade_fundo = 55  # Velocidade da correnteza 
 
 
 while x < largura:
@@ -120,6 +125,7 @@ while running:
                 anzol.is_game_over = False
                 score = 0
                 tempo_dificuldade = 0
+                TEMPO_DE_JOGO = 0
                 
                 # Esvazia as listas para os itens antigos sumirem da tela
                 gerador_de_peixes.fish_list.clear()
@@ -162,14 +168,17 @@ while running:
 
 
         # Gerenciamento dos Buffs
-        anzol.vel_mov, anzol.vel_baixo, invencibility_buff = Buffing(buff_timer, buff_type, dt)
+        anzol.vel_mov, anzol.vel_baixo, invencibility_buff, temporizador_buff1, temporizador_buff2 = Buffing(buff_timer, buff_type, dt)
 
 
-        #Pontuação na Tela
-        pontuacao_na_tela = fonte_padrão.render(f"Score: {score}", True, "white")
-        screen.blit(pontuacao_na_tela, (1100, 20))
-        vida_na_tela = fonte_padrão.render(f"Vidas: {anzol.vidas}", True, "green")
-        screen.blit(vida_na_tela, (30, 20))
+        #Textos na tela
+        VidaNaTela(fonte_padrão, screen, anzol)
+
+        BuffsNaTela(fonte_padrão, screen, invencibility_buff, temporizador_buff2, anzol, temporizador_buff1)
+        
+        TempoNaTela(fonte_padrão, screen, dt)
+
+        PontuacaoNaTela(fonte_padrão, screen, score)
 
 
         # Movimentação do Coração

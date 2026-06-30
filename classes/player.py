@@ -59,7 +59,7 @@ class Player(pygame.sprite.Sprite):
 
         #forcas/velocidades
         self.gravity = 500
-        self.forca_pulo = -700
+        self.forca_pulo = -900
         self.vel_y = 0
         self.vel_baixo = 60
         self.no_chao = True

@@ -3,8 +3,8 @@ import random
 import os
 
 # Tamanho da tela (tem que bater com o resto do jogo)
-LARGURA_TELA = 1280
-ALTURA_TELA = 720
+LARGURA_TELA = 1920
+ALTURA_TELA = 1080
 
 pasta_atual = os.path.dirname(__file__)
 pasta_projeto = os.path.dirname(pasta_atual)

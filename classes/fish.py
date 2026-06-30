@@ -24,7 +24,7 @@ class Fish:
         
         self.fish_buff = random.choices(('normal', 'dourado', 'invencibilidade', 'velocidade'), [80, 5, 5, 10])[0] #O buff do peixe é escolhido aleatóriamente
         self.fish_speed = -300 * dt  # Velocidade padrao dos peixes
-        self.fish_rect = pygame.Rect(1280, random.randint(100, 500), 65, 30) #O peixe é criado em uma altura aleatória
+        self.fish_rect = pygame.Rect(1920, random.randint(100, 900), 65, 30) #O peixe é criado em uma altura aleatória
 
         self.fish_image = 'peixe-sprite-1.png'
 
@@ -133,9 +133,11 @@ def Buffing(buff_spawn_timer, buff_type, dt):
 
         if buff_type == 'speed':      # Vê se o temporizador de velocidade
             temporizador_buff_velocity = True
+            contador_buff_velocity = 0
 
         elif buff_type == 'invencibility': # Ou de invencibilidade
             temporizador_buff_invencibility = True 
+            contador_buff_velocity = 0
     
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
 
@@ -168,10 +170,10 @@ def Buffing(buff_spawn_timer, buff_type, dt):
             contador_buff_invencibility = 0          # E resetado
             buff_invencibilidade = False             # E o buff é desligado
     else:
-        buff_invencibilidade = False
+        buff_invencibilidade = False  #Apenas para evitar erros
 
 
-    return buff_velocidade, buff_descida, buff_invencibilidade, 
+    return buff_velocidade, buff_descida, buff_invencibilidade, contador_buff_velocity, contador_buff_invencibility
 
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
