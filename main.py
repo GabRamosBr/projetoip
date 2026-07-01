@@ -120,7 +120,6 @@ imagem_gameover = pygame.transform.scale(imagem_gameover, (largura, altura))
 
 
 while running:  
-    musica_fundo.play(-1)
     lista_eventos = pygame.event.get()
 
 
