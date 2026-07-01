@@ -131,6 +131,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         
+        # Apertar tecla ESC para sair do jogo
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+        
         # Apertar tecla R para reiniciar o jogo
         if game_over and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:

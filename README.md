@@ -120,6 +120,30 @@ game
 ```
 ---
 
+## 🚀 Como Rodar o Jogo
+
+O projeto possui um inicializador automático que instala o Python (se necessário) e o Pygame em um ambiente virtual isolado, funcionando no **Windows** e **Linux/macOS**.
+
+### Método 1: Pelo VS Code (Recomendado)
+1. Abra a pasta do projeto no VS Code.
+2. Abra a Paleta de Comandos (`Ctrl + Shift + P`).
+3. Selecione **Run Task** (ou *Executar Tarefa*) e escolha **Jogar Fish Hunter**.
+
+### Método 2: Pelo Terminal
+Abra o terminal na pasta do projeto e execute o comando correspondente ao seu sistema:
+
+- **Windows:**
+  ```powershell
+  .\run.bat
+  ```
+
+- **Linux / macOS:**
+  ```bash
+  chmod +x run.sh && ./run.sh
+  ```
+
+---
+
 ## 👨‍💻 Equipe
 
 Projeto desenvolvido como requisito avaliativo da disciplina de **Introdução à Programação**, ministrada pelo **Centro de Informática (CIn)** da **Universidade Federal de Pernambuco (UFPE)**, no período letivo **2026.1**.
