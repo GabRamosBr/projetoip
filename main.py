@@ -18,7 +18,16 @@ largura = 1920
 altura = 1080
 chao = 920
 screen = pygame.display.set_mode((largura, altura))
+img_inicio = pygame.image.load(os.path.join("assets", "images", "tela_inicio.png")).convert()
+img_inicio = pygame.transform.scale(img_inicio, (largura, altura))
 
+img_tut1 = pygame.image.load(os.path.join("assets", "images", "tutorial1.png")).convert()
+img_tut1 = pygame.transform.scale(img_tut1, (largura, altura))
+
+img_tut2 = pygame.image.load(os.path.join("assets", "images", "tutorial2.png")).convert()
+img_tut2 = pygame.transform.scale(img_tut2, (largura, altura))
+
+estado = "inicio"
 
 pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
@@ -123,141 +132,161 @@ imagem_gameover = pygame.image.load(caminho_gameover).convert()
 imagem_gameover = pygame.transform.scale(imagem_gameover, (largura, altura))
 
 
+estado = "inicio"
+
 while running:  
     lista_eventos = pygame.event.get()
-
 
     for event in lista_eventos:
         if event.type == pygame.QUIT:
             running = False
-        
-        # Apertar tecla ESC para sair do jogo
+
         if event.type == pygame.KEYDOWN:
+            
             if event.key == pygame.K_ESCAPE:
                 running = False
-        
-        # Apertar tecla R para reiniciar o jogo
-        if game_over and event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_r:
-                # Restaura os valores iniciais
+            
+            if event.key == pygame.K_r:  
+                if estado == "inicio":
+                    estado = "tutorial1"
+                elif estado == "tutorial1":
+                    estado = "tutorial2"
+                elif estado == "tutorial2":
+                    estado = "jogando"
+
+            if event.key == pygame.K_r and game_over:
                 anzol.vidas = anzol.vidas_maximas
                 anzol.is_game_over = False
                 score = 0
                 tempo_dificuldade = 0
                 tempo_dano = 0
-                TEMPO_DE_JOGO = 0
+                import utils.texts
+                utils.texts.TEMPO_DE_JOGO = 0 
                 dano = False
+                som_derrota_tocado = False
                 pygame.mixer.music.play(-1)
                 
-                # Esvazia as listas para os itens antigos sumirem da tela
                 gerador_de_peixes.fish_list.clear()
                 gerador_de_peixes.fish_rect_list.clear()
                 coracao.heart_list.clear()
                 gerador.lista_obstaculos.clear()
                 
-                # Volta o estado para jogando
                 game_over = False
+                estado = "jogando"
+
+    if estado == "inicio":
+        screen.blit(img_inicio, (0, 0))
+
+    elif estado == "tutorial1":
+        screen.blit(img_tut1, (0, 0))
+
+    elif estado == "tutorial2":
+        screen.blit(img_tut2, (0, 0))
+
+    elif estado == "jogando":
+        if not game_over:
+            fundo_x -= velocidade_fundo * dt
+            
+
+            if fundo_x <= -largura:
+                fundo_x = 0
 
 
-    # Verifica o estado do jogo
-    if not game_over:
-        fundo_x -= velocidade_fundo * dt
+            screen.blit(imagem_fundo, (fundo_x, 0))
+            screen.blit(imagem_fundo, (fundo_x + largura, 0))
+
+
+            # Movimentação do jogador
+            anzol.andar(largura, chao, dt, dano)
+            screen.blit(anzol.image, anzol.rect)
+
+
+            # Geração e Movimentação dos peixes
+            gerador_de_peixes.Generating_Fishs(dt,fish_spawn_rate)
+            gerador_de_peixes.MovingAndDrawing_Fish(screen)
+
+            
+            #Coleta dos Peixes e dos Corações
+            score, buff_timer, buff_type, colisao_peixe = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, dano)
+            if colisao_peixe:
+                som_peixes.play()
+            colisao_coracao = ColisaoCoração(anzol, coracao.heart_list, dano)
+            if colisao_coracao:
+                som_peixes.play()
+
+
+            # Gerenciamento dos Buffs
+            anzol.vel_mov, anzol.vel_baixo, invencibility_buff, temporizador_buff1, temporizador_buff2 = Buffing(buff_timer, buff_type, dt)
+
+
+            #Textos na tela
+            TEMPO_DE_JOGO += dt
+
+                # Textos na tela
+            VidaNaTela(fonte_padrão, screen, anzol)
+            BuffsNaTela(fonte_padrão, screen, invencibility_buff, temporizador_buff2, anzol, temporizador_buff1)
+            TempoNaTela(fonte_padrão, screen, TEMPO_DE_JOGO)  # <-- Aqui mudamos de 'dt' para 'TEMPO_DE_JOGO'
+            PontuacaoNaTela(fonte_padrão, screen, score)
+
+
+            # Movimentação do Coração
+            coracao.spawn_time_counter(dt)
+            coracao.spawn(dt)
+
+
+            # Movimentação do Obstáculo
+            gerador.atualizar()
+            gerador.desenhar(screen)
+
+
+            # Colisão com obstáculos
+            dano, colisao_obstaculo = ColisaoObstaculo(anzol, gerador.lista_obstaculos, invencibility_buff, dano)
+            if colisao_obstaculo:
+                som_obstaculos.play()
+
+            # Verifica se as vidas zeraram
+            if anzol.is_game_over:
+                game_over = True
+
+
+            # Escalonamento de dificuldade
+            tempo_dificuldade += dt
+            if tempo_dificuldade >= INTERVALO_DIFICULDADE:
+                gerador.aumentar_dificuldade()
+                tempo_dificuldade = 0
+
+            # Invulnerabilidade dano
+            if dano:
+                tempo_dano += dt
+                if tempo_dano >= INTERVALO_DANO:
+                    tempo_dano = 0
+                    dano = False
+
+
+            # Chão
+            x = 0
+            for indice_tile in tiles_usados:
+                screen.blit(tiles_areia[indice_tile], (x, chao))
+                x += tile_largura
+
+
+        else:
         
+            pygame.mixer.music.stop()
+            if not som_derrota_tocado:   
+                som_derrota.play()
+                som_derrota_tocado = True
+            
+            screen.blit(imagem_gameover, (0, 0))
 
-        # Se a primeira imagem saiu completamente da tela, reseta a posição
-        if fundo_x <= -largura:
-            fundo_x = 0
-
-
-        # DESENHA AS DUAS CÓPIAS (uma colada na outra)
-        screen.blit(imagem_fundo, (fundo_x, 0))
-        screen.blit(imagem_fundo, (fundo_x + largura, 0))
-
-
-        # Movimentação do jogador
-        anzol.andar(largura, chao, dt, dano)
-        screen.blit(anzol.image, anzol.rect)
-
-
-        # Geração e Movimentação dos peixes
-        gerador_de_peixes.Generating_Fishs(dt,fish_spawn_rate)
-        gerador_de_peixes.MovingAndDrawing_Fish(screen)
-
-        
-        #Coleta dos Peixes e dos Corações
-        score, buff_timer, buff_type, colisao_peixe = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, dano)
-        if colisao_peixe:
-            som_peixes.play()
-        colisao_coracao = ColisaoCoração(anzol, coracao.heart_list, dano)
-        if colisao_coracao:
-            som_peixes.play()
-
-
-        # Gerenciamento dos Buffs
-        anzol.vel_mov, anzol.vel_baixo, invencibility_buff, temporizador_buff1, temporizador_buff2 = Buffing(buff_timer, buff_type, dt)
-
-
-        #Textos na tela
-        VidaNaTela(fonte_padrão, screen, anzol)
-
-        BuffsNaTela(fonte_padrão, screen, invencibility_buff, temporizador_buff2, anzol, temporizador_buff1)
-        
-        TempoNaTela(fonte_padrão, screen, dt)
-
-        PontuacaoNaTela(fonte_padrão, screen, score)
-
-
-        # Movimentação do Coração
-        coracao.spawn_time_counter(dt)
-        coracao.spawn(dt)
-
-
-        # Movimentação do Obstáculo
-        gerador.atualizar()
-        gerador.desenhar(screen)
-
-
-        # Colisão com obstáculos
-        dano, colisao_obstaculo = ColisaoObstaculo(anzol, gerador.lista_obstaculos, invencibility_buff, dano)
-        if colisao_obstaculo:
-            som_obstaculos.play()
-
-        # Verifica se as vidas zeraram
-        if anzol.is_game_over:
-            game_over = True
-
-
-        # Escalonamento de dificuldade
-        tempo_dificuldade += dt
-        if tempo_dificuldade >= INTERVALO_DIFICULDADE:
-            gerador.aumentar_dificuldade()
-            tempo_dificuldade = 0
-
-        # Invulnerabilidade dano
-        if dano:
-            tempo_dano += dt
-            if tempo_dano >= INTERVALO_DANO:
-                tempo_dano = 0
-                dano = False
-
-
-        # Chão
-        x = 0
-        for indice_tile in tiles_usados:
-            screen.blit(tiles_areia[indice_tile], (x, chao))
-            x += tile_largura
-
-
-    else:
-        pygame.mixer.music.stop()
-        if not som_derrota_tocado:   
-            som_derrota.play()
-            som_derrota_tocado = True
-        screen.blit(imagem_gameover, (0, 0))
+            fonte_gameover = pygame.font.SysFont("Arial", 48, bold=True)
+            
+            texto_score = fonte_gameover.render(f"Score Final: {score}", True, (35, 35, 35))
+            
+            texto_rect = texto_score.get_rect(center=(largura // 2, 420))
+            
+            screen.blit(texto_score, texto_rect)
 
     pygame.display.flip()
-
-
     dt = clock.tick(60) / 1000
-
 pygame.quit()
