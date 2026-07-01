@@ -1,42 +1,55 @@
 import pygame
 import random
+import os
 
 class Heart:
 
-#    *ATRIBUTOS* ------------------------------------------------------------------------------
     def __init__(self, tela):
 
-        self.screen = tela                   #tela onde os coraçãos serão desenhados
-        self.heart_spawn_rate = 30           #tempo em segundos para o próximo coração aparecer
-        self.heart_list = []                 #lista com os coraçãos que estão na tela
-        self.heart_spawn_counter = 0         #temporizador para controlar o spawn dos coraçãos
-        self.heart_speed = 50                #velocidade dos coraçãos (em pixels por segundo)
+        self.screen = tela                   
+        self.heart_spawn_rate = 30           
+        self.heart_list = []                 
+        self.heart_spawn_counter = 0         
+        self.heart_speed = 50                
 
+        pasta_atual = os.path.dirname(__file__)
+        pasta_projeto = os.path.dirname(pasta_atual)
+        pasta_imagens = os.path.join(pasta_projeto, "assets", "images")
+        
+        imagem_original = pygame.image.load(os.path.join(pasta_imagens, "coracao.png")).convert_alpha()
+        
+        self.largura = 65
+        self.altura = 65
+        
+        self.imagem_coracao = pygame.transform.scale(imagem_original, (self.largura, self.altura))
+        
+        self.largura = self.imagem_coracao.get_width()
+        self.altura = self.imagem_coracao.get_height()
 
-#    *TEMPORIZADOR DO SPAWN DE CORAÇÕES* ---------------------------------------------------------
 
     def spawn_time_counter(self, dt):
-        self.heart_spawn_counter += dt       #função que inicializa o temporizador
+        self.heart_spawn_counter += dt       
         
 
-#    *GERADOR DE coraçãoS* -----------------------------------------------------------------------
+#GERADOR DE CORAÇÕES
 
     def spawn(self, dt):
 
-        if self.heart_spawn_counter >= self.heart_spawn_rate:        # se o temporizador for maior ou igual ao tempo de spawn
-                                                             
-            heart = pygame.Rect(random.randint(100, 1100), 0, 50, 10)       # um novo coração é gerado
+        if self.heart_spawn_counter >= self.heart_spawn_rate:       
+                                                                     
+            heart = pygame.Rect(random.randint(100, 1800), -self.altura, self.largura, self.altura)       
 
-            self.heart_list.append(heart)          # o coração é adicionado à lista de coraçãos na tela
+            self.heart_list.append(heart)         
 
-            self.heart_spawn_counter = 0        # e o temporizador é reiniciado para gerar o próximo coração
+            self.heart_spawn_counter = 0       
 
-        for heart in self.heart_list:        # para cada coração na lista de coraçãos
+        for heart in self.heart_list:        
 
-            heart.y += self.heart_speed * dt     # a posição X do coração é decrementada para ele andar para a esquerda
+            heart.y += self.heart_speed * dt   
  
-            pygame.draw.rect(self.screen, 'red', (heart.x, heart.y, 50, 10), width=0)   #o coração é desenhado com a nova posicao
+            self.screen.blit(self.imagem_coracao, (heart.x, heart.y)) 
 
-            if heart.y > 750:                        # se o coração estiver fora da tela ele é removido da lista
+            if heart.y > 1080:                       
                 self.heart_list.remove(heart)
+                
         return self.heart_list
