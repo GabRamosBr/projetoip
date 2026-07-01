@@ -8,8 +8,12 @@ musica_fundo = pygame.mixer.music.load("assets/sounds/música_de_fundo.wav")
 pygame.mixer.music.set_volume(0.30)
 pygame.mixer.music.play(-1)
 som_derrota = pygame.mixer.Sound("assets/sounds/derrota.wav")
+som_derrota.set_volume(0.50)
 som_obstaculos = pygame.mixer.Sound("assets/sounds/colisão_obstáculos.wav")
+som_obstaculos.set_volume(0.50)
 som_peixes = pygame.mixer.Sound("assets/sounds/colisão_peixes.wav")
+som_peixes.set_volume(0.50)
+som_derrota_tocado = False
 largura = 1920
 altura = 1080
 chao = 920
@@ -175,10 +179,10 @@ while running:
 
         
         #Coleta dos Peixes e dos Corações
-        score, buff_timer, buff_type, colisao_peixe = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score)
+        score, buff_timer, buff_type, colisao_peixe = ColisaoPeixe(anzol.rect, gerador_de_peixes.fish_list, gerador_de_peixes.fish_rect_list, score, dano)
         if colisao_peixe:
             som_peixes.play()
-        colisao_coracao = ColisaoCoração(anzol, coracao.heart_list)
+        colisao_coracao = ColisaoCoração(anzol, coracao.heart_list, dano)
         if colisao_coracao:
             som_peixes.play()
 
@@ -210,7 +214,7 @@ while running:
         # Colisão com obstáculos
         dano, colisao_obstaculo = ColisaoObstaculo(anzol, gerador.lista_obstaculos, invencibility_buff, dano)
         if colisao_obstaculo:
-            som_obstaculo.play()
+            som_obstaculos.play()
 
         # Verifica se as vidas zeraram
         if anzol.is_game_over:
@@ -240,8 +244,10 @@ while running:
 
     else:
         pygame.mixer.music.stop()
+        if not som_derrota_tocado:   
+            som_derrota.play()
+            som_derrota_tocado = True
         screen.blit(imagem_gameover, (0, 0))
-        som_derrota.play()
 
     pygame.display.flip()
 
