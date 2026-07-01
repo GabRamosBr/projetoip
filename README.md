@@ -98,7 +98,7 @@ game
 │   ├── player.py
 │   ├── obstacles.py
 │   ├── spawner.py
-│   ├── heart.py[
+│   ├── heart.py
 │   └── fish.py
 |
 ├── utils
@@ -106,11 +106,6 @@ game
 │   ├── colision.py
 │   ├── score.py
 │   └── lives.py
-│
-├── ui
-│   │
-│   ├── hud.py
-│   └── menu.py
 │
 └── assets
     │
