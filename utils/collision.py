@@ -4,11 +4,13 @@ def ColisaoPeixe(player, lista_peixes, lista_peixesrect, pontos, dano):
     
     global fish_collided
     temporizador_buff = False #variáveis de inicialização
+    colisao = False
     
     for peixe in lista_peixes:   #Verifica todos os peixes na tela
 
         if player.colliderect(peixe.fish_rect) and not dano:   #Se o jogador colidir com um peixe
             pontos += 1                           #Um ponto é adicionado
+            colisao = True
             temporizador_buff = True
 
 
@@ -36,7 +38,7 @@ def ColisaoPeixe(player, lista_peixes, lista_peixesrect, pontos, dano):
             lista_peixesrect.pop(player.collidelist(lista_peixesrect))  
 
 
-    return pontos, temporizador_buff, fish_collided
+    return pontos, temporizador_buff, fish_collided, colisao
   
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
@@ -44,11 +46,15 @@ def ColisaoPeixe(player, lista_peixes, lista_peixesrect, pontos, dano):
 
 def ColisaoCoração(anzol, lista_coracao, dano):
 
+    colisao = False
+
     for coracao in lista_coracao:   #Verifica todos os corações na tela
 
         if anzol.rect.colliderect(coracao) and not dano:   #Se o jogador colidir com um coração
+            colisao = True
             anzol.curar()
             lista_coracao.pop(anzol.rect.collidelist(lista_coracao))   #E o coração é removido da tela
+    return colisao
 
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
@@ -56,16 +62,19 @@ def ColisaoCoração(anzol, lista_coracao, dano):
 
 def ColisaoObstaculo(anzol, lista_obstaculos, invencibility_buff, dano):
 
+    colisao = False
+
     for obstaculo in lista_obstaculos[:]:
 
         if anzol.rect.colliderect(obstaculo.retangulo):
+            colisao = True
             lista_obstaculos.remove(obstaculo)
 
             if not invencibility_buff and not dano:
                 anzol.tomar_dano()
                 dano = True
     
-    return dano
+    return dano, colisao
 
 
 
