@@ -147,6 +147,7 @@ while running:
                 tempo_dano = 0
                 TEMPO_DE_JOGO = 0
                 dano = False
+                pygame.mixer.music.play(-1)
                 
                 # Esvazia as listas para os itens antigos sumirem da tela
                 gerador_de_peixes.fish_list.clear()
