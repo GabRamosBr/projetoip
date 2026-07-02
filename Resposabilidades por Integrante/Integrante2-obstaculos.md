@@ -10,8 +10,8 @@
 
 ## Arquivos
 
-* `obstacles/obstacles.py`
-* `obstacles/spawner.py`
+* `classes/obstacles.py`
+* `classes/spawner.py`
 
 ## Entregas
 
