@@ -33,18 +33,18 @@ pygame.display.set_caption("Fish Hunter")
 clock = pygame.time.Clock()
 running = True
 dt = 0
-TEMPO_DE_JOGO = 0
 
 
 #Variáveis que influênciam nos peixes
 invencibility_buff = False
 fish_spawn_rate = 0.5
 
-#flag de hit
+#Flag de hit
 dano = False
 
 pygame.font.init()
-fonte_padrão = pygame.font.SysFont("Calibri", 30, bold=True)
+fonte_padrao = pygame.font.SysFont("Calibri", 30, bold=True)
+fonte_tempo = pygame.font.SysFont("Calibri", 50, bold=True)
 score = 0
 
 
@@ -220,13 +220,10 @@ while running:
 
 
             #Textos na tela
-            TEMPO_DE_JOGO += dt
-
-                # Textos na tela
-            VidaNaTela(fonte_padrão, screen, anzol)
-            BuffsNaTela(fonte_padrão, screen, invencibility_buff, temporizador_buff2, anzol, temporizador_buff1)
-            TempoNaTela(fonte_padrão, screen, TEMPO_DE_JOGO)  # <-- Aqui mudamos de 'dt' para 'TEMPO_DE_JOGO'
-            PontuacaoNaTela(fonte_padrão, screen, score)
+            VidaNaTela(fonte_padrao, screen, anzol)
+            BuffsNaTela(fonte_padrao, screen, invencibility_buff, temporizador_buff2, anzol, temporizador_buff1)
+            TempoNaTela(fonte_tempo, screen)
+            PontuacaoNaTela(fonte_padrao, screen, score)
 
 
             # Movimentação do Coração

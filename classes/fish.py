@@ -22,7 +22,7 @@ class Fish:
 
     def __init__(self,dt):
         
-        self.fish_buff = random.choices(('normal', 'dourado', 'invencibilidade', 'velocidade'), [80, 5, 5, 10])[0] #O buff do peixe é escolhido aleatóriamente
+        self.fish_buff = random.choices(('normal', 'dourado', 'invencibilidade', 'velocidade'), [80, 3, 2, 5])[0] #O buff do peixe é escolhido aleatóriamente )
         self.fish_speed = -300 * dt  # Velocidade padrao dos peixes
         self.fish_rect = pygame.Rect(1920, random.randint(100, 900), 65, 30) #O peixe é criado em uma altura aleatória
 
@@ -137,7 +137,7 @@ def Buffing(buff_spawn_timer, buff_type, dt):
 
         elif buff_type == 'invencibility': # Ou de invencibilidade
             temporizador_buff_invencibility = True 
-            contador_buff_velocity = 0
+            contador_buff_invencibility = 0
     
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
 
