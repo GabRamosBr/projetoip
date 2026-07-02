@@ -12,7 +12,8 @@
 ## Arquivos
 
 * `main.py`
-* `config.py`
+* `heart.py`
+* `sounds`
 
 ## Entregas
 
