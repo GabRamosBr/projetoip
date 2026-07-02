@@ -65,7 +65,7 @@ class Pedra(Obstaculo):
         posicao_x = LARGURA_TELA + 10
 
         if no_chao:
-            posicao_y = ALTURA_TELA - altura - 87
+            posicao_y = ALTURA_TELA - altura - 160
         else:
             posicao_y = random.randint(100, ALTURA_TELA - altura - 150)
 
