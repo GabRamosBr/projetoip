@@ -7,7 +7,7 @@ LARGURA_TELA = 1920
 ALTURA_TELA = 1080
 
 # Intervalo em milissegundos entre cada geração de obstáculo
-INTERVALO_GERACAO = 1500
+INTERVALO_GERACAO = 1200
 
 
 class GeradorObstaculos:
