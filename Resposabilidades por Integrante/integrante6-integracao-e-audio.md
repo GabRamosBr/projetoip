@@ -7,6 +7,7 @@
 * Sons
 * Música de fundo
 * Configurações gerais
+* Aparecimento corações
 
 ## Arquivos
 
