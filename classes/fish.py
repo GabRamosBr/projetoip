@@ -24,7 +24,7 @@ class Fish:
         
         self.fish_buff = random.choices(('normal', 'dourado', 'invencibilidade', 'velocidade'), [80, 3, 2, 5])[0] #O buff do peixe é escolhido aleatóriamente )
         self.fish_speed = -300 * dt  # Velocidade padrao dos peixes
-        self.fish_rect = pygame.Rect(1920, random.randint(100, 900), 65, 30) #O peixe é criado em uma altura aleatória
+        self.fish_rect = pygame.Rect(1920, random.randint(100, 800), 65, 30) #O peixe é criado em uma altura aleatória
 
         self.fish_image = 'peixe-sprite-1.png'
 

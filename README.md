@@ -90,28 +90,26 @@ Corações podem ser coletados para restaurar vidas durante o jogo.
 ```text
 game
 │
-├── main.py
-├── config.py
+├── main.py #loop principal
 │
 ├── classes
 │   │
-│   ├── player.py
-│   ├── obstacles.py
-│   ├── spawner.py
-│   ├── heart.py
-│   └── fish.py
+│   ├── player.py #define o player
+│   ├── obstacles.py #define os obstáculos
+│   ├── spawner.py #define o aparecimento de obstáculos
+│   ├── heart.py #define os corações
+│   └── fish.py #define os peixes
 |
 ├── utils
 │   │
-│   ├── colision.py
-│   ├── score.py
-│   └── lives.py
+│   ├── colision.py #cria as colisões
+│   └── texts.py #aparição dos textos
 │
 └── assets
     │
-    ├── images
+    ├── images #armazena as imagens
     │
-    └── sounds
+    └── sounds #armazena os sons
 ```
 ---
 
