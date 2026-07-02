@@ -10,7 +10,7 @@
 
 ## Arquivos
 
-* `player/player.py`
+* `classes/player.py`
 
 ## Entregas
 
