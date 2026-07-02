@@ -11,8 +11,7 @@
 
 ## Arquivos
 
-* `items/fish.py`
-* `mechanics/score.py`
+* `classes/fish.py`
 * `utils/texts.py`
 
 ## Entregas
