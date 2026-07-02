@@ -6,6 +6,8 @@
 * Spawn dos peixes
 * Coleta dos peixes
 * Sistema de pontuação
+* Exibir vidas
+* Exibir pontuação
 
 ## Arquivos
 
