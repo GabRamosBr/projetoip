@@ -44,7 +44,8 @@ dano = False
 
 pygame.font.init()
 fonte_padrao = pygame.font.SysFont("Calibri", 30, bold=True)
-fonte_tempo = pygame.font.SysFont("Calibri", 50, bold=True)
+fonte_score = pygame.font.SysFont("Calibri", 50, bold=True)
+fonte_tempo = pygame.font.SysFont("Calibri", 40, bold=True)
 score = 0
 
 
@@ -63,6 +64,14 @@ tiles_areia = [
     pygame.image.load(os.path.join(pasta_tiles, "areia-3.png")).convert_alpha(),
     pygame.image.load(os.path.join(pasta_tiles, "areia-4.png")).convert_alpha()
 ]
+
+
+#Corações para a vidad
+imagem_vida = pygame.image.load(os.path.join(pasta_projeto, "assets", "images", "life", "vida.png")).convert_alpha()
+imagem_vida = pygame.transform.scale(imagem_vida, (60, 60))
+imagem_vida_perdida = pygame.image.load(os.path.join(pasta_projeto, "assets", "images", "life", "vida_perdida.png")).convert_alpha()
+imagem_vida_perdida = pygame.transform.scale(imagem_vida_perdida, (60, 60))
+
 
 
 for i in range(len(tiles_areia)):
@@ -200,7 +209,6 @@ while running:
             anzol.andar(largura, chao, dt, dano)
             screen.blit(anzol.image, anzol.rect)
 
-
             # Geração e Movimentação dos peixes
             gerador_de_peixes.Generating_Fishs(dt,fish_spawn_rate)
             gerador_de_peixes.MovingAndDrawing_Fish(screen)
@@ -220,10 +228,10 @@ while running:
 
 
             #Textos na tela
-            VidaNaTela(fonte_padrao, screen, anzol)
+            VidaNaTela(imagem_vida, imagem_vida_perdida, screen, anzol)
             BuffsNaTela(fonte_padrao, screen, invencibility_buff, temporizador_buff2, anzol, temporizador_buff1)
             TempoNaTela(fonte_tempo, screen)
-            PontuacaoNaTela(fonte_padrao, screen, score)
+            PontuacaoNaTela(fonte_score, screen, score)
 
 
             # Movimentação do Coração
@@ -244,7 +252,6 @@ while running:
             # Verifica se as vidas zeraram
             if anzol.is_game_over:
                 game_over = True
-
 
             # Escalonamento de dificuldade
             tempo_dificuldade += dt

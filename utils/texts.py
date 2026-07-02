@@ -1,25 +1,25 @@
 TEMPO_DE_JOGO = 0
 
 
-def PontuacaoNaTela(fonte_padrao, screen, score):
-    pontuacao_na_tela = fonte_padrao.render(f"Score: {score}", True, "black")
-    screen.blit(pontuacao_na_tela, (1750, 20))
+def PontuacaoNaTela(fonte_pontuacao, screen, score):
+    pontuacao_na_tela = fonte_pontuacao.render(f"{score}", True, "black")
+    screen.blit(pontuacao_na_tela, (960, 20))
 
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
 
 
-def BuffsNaTela(fonte_padrao, screen, invencibility_buff, temporizador_buff2, anzol, temporizador_buff1 ):
+def BuffsNaTela(fonte_buffs, screen, invencibility_buff, temporizador_buff2, anzol, temporizador_buff1 ):
 
     if invencibility_buff == True:
 
-        buff_invencibilidade_na_tela = fonte_padrao.render(f"{(10 - temporizador_buff2):.1f}", True, 'gray')
+        buff_invencibilidade_na_tela = fonte_buffs.render(f"{(10 - temporizador_buff2):.1f}", True, 'gray')
         screen.blit(buff_invencibilidade_na_tela, (1600, 20))
 
 
     if anzol.vel_mov > 500:
 
-        buff_velocidade_na_tela = fonte_padrao.render(f"{(10 - temporizador_buff1):.1f}", True, 'red')
+        buff_velocidade_na_tela = fonte_buffs.render(f"{(10 - temporizador_buff1):.1f}", True, 'red')
         screen.blit(buff_velocidade_na_tela, (1500,20))
 
 
@@ -31,15 +31,27 @@ def TempoNaTela(fonte_tempo, screen):
     
     tempo_de_jogo_na_tela = fonte_tempo.render(f'{int(TEMPO_DE_JOGO)}', True, 'black')
     TEMPO_DE_JOGO += 1/60
-    screen.blit(tempo_de_jogo_na_tela,(920,20))
+    screen.blit(tempo_de_jogo_na_tela,(1850,20))
 
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
 
 
-def VidaNaTela(fonte_padrao, screen, anzol):
-    vida_na_tela = fonte_padrao.render(f"Vidas: {anzol.vidas}", True, "red")
-    screen.blit(vida_na_tela, (30, 20))
+def VidaNaTela(imagem_vida, imagem_vida_perdida, screen, anzol):
+    if anzol.vidas == 3:
+        screen.blit(imagem_vida, (20, 10))
+        screen.blit(imagem_vida, (70, 10))
+        screen.blit(imagem_vida, (120, 10))
+    elif anzol.vidas == 2:
+        screen.blit(imagem_vida, (20, 10))
+        screen.blit(imagem_vida, (70, 10))
+        screen.blit(imagem_vida_perdida, (120, 10))
+
+    elif anzol.vidas == 1:
+        screen.blit(imagem_vida, (20, 10))
+        screen.blit(imagem_vida_perdida, (70, 10))
+        screen.blit(imagem_vida_perdida, (120, 10))
+
 
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
