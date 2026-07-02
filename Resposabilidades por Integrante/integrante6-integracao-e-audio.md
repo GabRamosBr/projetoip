@@ -12,8 +12,8 @@
 ## Arquivos
 
 * `main.py`
-* `heart.py`
-* `sounds`
+* `classes/heart.py`
+* `assets/sounds`
 
 ## Entregas
 
