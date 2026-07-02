@@ -13,6 +13,7 @@
 
 * `items/fish.py`
 * `mechanics/score.py`
+* `utils/texts.py`
 
 ## Entregas
 
