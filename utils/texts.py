@@ -13,14 +13,14 @@ def BuffsNaTela(fonte_buffs, screen, invencibility_buff, temporizador_buff2, anz
 
     if invencibility_buff == True:
 
-        buff_invencibilidade_na_tela = fonte_buffs.render(f"{(10 - temporizador_buff2):.1f}", True, 'gray')
-        screen.blit(buff_invencibilidade_na_tela, (1600, 20))
+        buff_invencibilidade_na_tela = fonte_buffs.render(f"{int(11 - temporizador_buff2)}", True, (112, 128, 144))
+        screen.blit(buff_invencibilidade_na_tela, (940, 70))
 
 
     if anzol.vel_mov > 500:
 
-        buff_velocidade_na_tela = fonte_buffs.render(f"{(10 - temporizador_buff1):.1f}", True, 'red')
-        screen.blit(buff_velocidade_na_tela, (1500,20))
+        buff_velocidade_na_tela = fonte_buffs.render(f"{int(11 - temporizador_buff1)}", True, 'red')
+        screen.blit(buff_velocidade_na_tela, (985, 70))
 
 
 # ----------------------------- // ---------------------------------------- // --------------------------------- // ----------------------------------------------- // --------------------------------------------- // ---------------------------------------
@@ -42,6 +42,7 @@ def VidaNaTela(imagem_vida, imagem_vida_perdida, screen, anzol):
         screen.blit(imagem_vida, (20, 10))
         screen.blit(imagem_vida, (70, 10))
         screen.blit(imagem_vida, (120, 10))
+
     elif anzol.vidas == 2:
         screen.blit(imagem_vida, (20, 10))
         screen.blit(imagem_vida, (70, 10))
